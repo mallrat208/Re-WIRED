@@ -1,0 +1,17 @@
+item.rewired.hand.alloyed_fist.name=Alloy-Reinforced Fist
+cyberware.tooltip.hand.0=Hands mine at Iron Level
+
+item.rewired.hand.kinetic_dampener.name=Kinetic Dampener
+cyberware.tooltip.hand.1=Blocks Arrows... if you see it coming
+
+item.rewired.shield.polymer.name=Polymer Riot Shield
+item.rewired.shield.carbon.name=Carbon Riot Shield
+item.rewired.shield.plasteel.name=Plasteel Riot Shield
+item.rewired.shield.holo.name=Holographic Riot Shield
+
+item.rewired.baton.polymer.name=Polymer Riot Baton
+item.rewired.baton.carbon.name=Carbon Riot Baton
+item.rewired.baton.plasteel.name=Plasteel Riot Baton
+item.rewired.baton.stun.name=Stun Baton
+
+itemGroup.rewired=ReWIRED

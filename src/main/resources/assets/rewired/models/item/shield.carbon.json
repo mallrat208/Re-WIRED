@@ -1,0 +1,14 @@
+{
+  "parent":"rewired:item/shield.polymer",
+  "textures": {
+    "0": "rewired:items/shield/shield.carbon"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "blocking": 1
+      },
+      "model": "rewired:item/shield.carbon.blocking"
+    }
+  ]
+}

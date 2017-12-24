@@ -1,0 +1,19 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "minecraft:cube",
+    "textures": {
+      "particle": "cyberware:blocks/surgeryChamberTop",
+      "down": "cyberware:blocks/surgeryChamberTop",
+      "up": "wired:blocks/euChargerTop",
+      "north": "wired:blocks/euChargerSide",
+      "east": "wired:blocks/euChargerSide",
+      "south": "wired:blocks/euChargerSide",
+      "west": "wired:blocks/euChargerSide"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{}]
+  }
+}

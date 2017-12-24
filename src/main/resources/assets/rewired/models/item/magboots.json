@@ -1,0 +1,15 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "rewired:items/magboots",
+    "layer1": "rewired:items/magboots_overlay"
+  },
+  "display":
+  {
+    "head": {
+      "rotation": [ 90, 0, 0],
+      "translation": [ 0.00, 0.00, 0.00],
+      "scale": [ 1.00, 1.00, 1.00]
+    }
+  }
+}

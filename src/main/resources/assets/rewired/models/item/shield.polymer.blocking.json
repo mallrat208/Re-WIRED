@@ -1,0 +1,25 @@
+{
+    "parent":"rewired:item/shield.polymer",
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [ 30, 330, 0 ],
+            "translation": [ -5.00, -7.25, 3.00 ],
+            "scale": [ 1.00, 1.00, 1.00 ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [ 30, 330, 0 ],
+            "translation": [ -5.00, -7.25, 3.00 ],
+            "scale": [ 1.00, 1.00, 1.00 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ 6, 0, 0 ],
+            "translation": [ -8.75, -9.75, 4.25 ],
+            "scale": [ 1.75, 1.75, 1.50 ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [ 6, 0, 0 ],
+            "translation": [ -8.75, -9.75, 4.25 ],
+            "scale": [ 1.75, 1.75, 1.50 ]
+        }
+    }
+}
