@@ -1,5 +1,6 @@
 package com.mr208.rewired.common.items.augments;
 
+import com.mr208.rewired.common.handlers.ConfigHandler;
 import com.mr208.rewired.common.handlers.NetworkHandler;
 import com.mr208.rewired.common.handlers.packets.PacketEntityMovement;
 import flaxbeard.cyberware.api.CyberwareAPI;
@@ -36,6 +37,18 @@ public class ItemHandAugment extends ItemAugment
 	{
 		super(name, slot, subnames);
 		MinecraftForge.EVENT_BUS.register(this);
+	}
+
+	@Override
+	public boolean hasCustomPowerMessage(ItemStack itemStack)
+	{
+		return itemStack.getItemDamage() == 1;
+	}
+
+	@Override
+	public int getPowerConsumption(ItemStack itemStack)
+	{
+		return itemStack.getItemDamage() == 1?ConfigHandler.Augments.pkb.ENERGY_COST: super.getPowerConsumption(itemStack);
 	}
 
 	@Override
@@ -134,7 +147,7 @@ public class ItemHandAugment extends ItemAugment
 		{
 			ICyberwareUserData cyberwareUserData = CyberwareAPI.getCapability(player);
 
-			if (cyberwareUserData.usePower(test, 100, false))
+			if (cyberwareUserData.usePower(test, ConfigHandler.Augments.pkb.ENERGY_COST, false))
 			{
 
 				Entity projectile = event.getSource().getImmediateSource();

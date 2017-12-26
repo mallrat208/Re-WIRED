@@ -2,6 +2,7 @@ package com.mr208.rewired;
 
 import com.mr208.rewired.common.CommonProxy;
 import com.mr208.rewired.common.ReWIREDContent;
+import com.mr208.rewired.common.effects.ReWIREDEffects;
 import com.mr208.rewired.common.handlers.NetworkHandler;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
@@ -39,6 +40,7 @@ public class ReWIRED
 	public void onPreInit(FMLPreInitializationEvent event)
 	{
 		ReWIREDContent.onPreInit();
+		ReWIREDEffects.onPreInit();
 	}
 
 	@EventHandler

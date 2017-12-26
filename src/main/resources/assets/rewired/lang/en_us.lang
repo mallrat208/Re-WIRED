@@ -1,8 +1,18 @@
-item.rewired.hand.alloyed_fist.name=Alloy-Reinforced Fist
+item.rewired.hand.plasteel_fist.name=Plasteel Fist
 cyberware.tooltip.hand.0=Hands mine at Iron Level
 
-item.rewired.hand.kinetic_dampener.name=Kinetic Dampener
+item.rewired.hand.projected_kinetic_barrier.name=Projected Kinetic Barrier
 cyberware.tooltip.hand.1=Blocks Arrows... if you see it coming
+
+item.rewired.torso.derps.name=D.E.R.P.S.
+cyberware.tooltip.torso.0=Delayed Ender RePositioning System
+
+item.rewired.skin.camo.name=Thermopitic Camouflage
+cyberware.tooltip.skin.0=Out of Sight...
+
+item.rewired.foot.rail_riders.name=Rail Riders
+cyberware.tooltip.foot.0=Keeping a foot ahead on the Tracks of life
+
 
 item.rewired.shield.polymer.name=Polymer Riot Shield
 item.rewired.shield.carbon.name=Carbon Riot Shield

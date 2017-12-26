@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mr208.rewired.common.entities.EntityCyberSkeleton;
-import com.mr208.rewired.common.items.augments.ItemSkinAugment;
+import com.mr208.rewired.common.handlers.ConfigHandler;
+import com.mr208.rewired.common.items.augments.*;
 import flaxbeard.cyberware.common.CyberwareContent;
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -27,9 +29,6 @@ import flaxbeard.cyberware.common.misc.NNLUtil;
 import com.mr208.rewired.ReWIRED;
 import com.mr208.rewired.common.items.armor.ItemReWIREDShield;
 import com.mr208.rewired.common.entities.EntityRailRider;
-import com.mr208.rewired.common.items.augments.ItemAugment;
-import com.mr208.rewired.common.items.augments.ItemFootAugment;
-import com.mr208.rewired.common.items.augments.ItemHandAugment;
 
 @Mod.EventBusSubscriber(modid = ReWIRED.MOD_ID)
 public class ReWIREDContent
@@ -63,7 +62,7 @@ public class ReWIREDContent
 	public static ItemAugment craniumAugments;
 	public static ItemAugment heartAugments;
 	public static ItemAugment lungsAugments;
-	public static ItemAugment bodyAugments;
+	public static ItemAugment torsoAugments;
 	public static ItemAugment skinAugments;
 	public static ItemAugment muscleAugments;
 	public static ItemAugment boneAugments;
@@ -103,22 +102,41 @@ public class ReWIREDContent
 		itemShieldCarbon = new ItemReWIREDShield(CARBON_MATERIAL);
 		itemShieldPlasteel = new ItemReWIREDShield(PLASTEEL_MATERIAL);
 
-		handAugments = new ItemHandAugment("hand", ICyberware.EnumSlot.HAND,new String[]{"alloyed_fist","kinetic_dampener"});
-		handAugments.setEssenceCost(2,6);
-		handAugments.setWeights(RARE,VERY_RARE);
+		handAugments = new ItemHandAugment("hand", ICyberware.EnumSlot.HAND,new String[]{"plasteel_fist","projected_kinetic_barrier"});
+		handAugments.setEssenceCost(ConfigHandler.Augments.plasteelFist.TOLERANCE_COST,ConfigHandler.Augments.pkb.TOLERANCE_COST);
+		handAugments.setWeights(ConfigHandler.Augments.plasteelFist.RARITY,ConfigHandler.Augments.pkb.RARITY);
 		handAugments.setComponents(
 				NNLUtil.fromArray(new ItemStack[] { new ItemStack(component, 2, 0), new ItemStack(component, 1, 2), new ItemStack(component, 1, 4), new ItemStack(component, 2, 6)}),
 				NNLUtil.fromArray(new ItemStack[] { new ItemStack(component, 1, 7), new ItemStack(component, 3, 9), new ItemStack(component, 2, 6)})
 		);
 
 		footAugments = new ItemFootAugment("foot", ICyberware.EnumSlot.FOOT,new String[]{"rail_riders"});
-		footAugments.setEssenceCost(6);
-		footAugments.setWeights(RARE);
+		footAugments.setEssenceCost(ConfigHandler.Augments.RailRider.TOLERANCE_COST);
+		footAugments.setWeights(ConfigHandler.Augments.RailRider.RARITY);
 		footAugments.setComponents(
 				NNLUtil.fromArray(new ItemStack[]{new ItemStack(component,2,0)})
 		);
 
 		skinAugments = new ItemSkinAugment("skin", ICyberware.EnumSlot.SKIN, new String[]{"camo"});
+		skinAugments.setEssenceCost(ConfigHandler.Augments.TOC.TOLERANCE_COST);
+		skinAugments.setWeights(ConfigHandler.Augments.TOC.RARITY);
+		skinAugments.setComponents(
+				NNLUtil.fromArray(new ItemStack[] { new ItemStack(Items.APPLE)})
+		);
+
+		torsoAugments = new ItemTorsoAugment("torso", ICyberware.EnumSlot.LOWER_ORGANS, new String[]{"derps"});
+		torsoAugments.setEssenceCost(ConfigHandler.Augments.derps.TOLERANCE_COST);
+		torsoAugments.setWeights(ConfigHandler.Augments.derps.RARITY);
+		torsoAugments.setComponents(
+				NNLUtil.fromArray(new ItemStack[] {new ItemStack(Items.APPLE)})
+		);
+
+		craniumAugments = new ItemCraniumAugment("cranium", ICyberware.EnumSlot.CRANIUM, new String[]{"ecd"});
+		craniumAugments.setEssenceCost(ConfigHandler.Augments.ecd.TOLERANCE_COST);
+		craniumAugments.setWeights(ConfigHandler.Augments.ecd.RARITY);
+		craniumAugments.setComponents(
+				NNLUtil.fromArray(new ItemStack[] {new ItemStack(Items.APPLE)})
+		);
 
 		//ENTITIES
 		entryRailRider = EntityEntryBuilder.create()
