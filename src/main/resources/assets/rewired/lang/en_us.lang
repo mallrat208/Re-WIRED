@@ -1,3 +1,5 @@
+itemGroup.rewired=ReWIRED
+
 item.rewired.hand.plasteel_fist.name=Plasteel Fist
 cyberware.tooltip.hand.0=Hands mine at Iron Level
 
@@ -18,10 +20,10 @@ item.rewired.shield.polymer.name=Polymer Riot Shield
 item.rewired.shield.carbon.name=Carbon Riot Shield
 item.rewired.shield.plasteel.name=Plasteel Riot Shield
 item.rewired.shield.holo.name=Holographic Riot Shield
-
 item.rewired.baton.polymer.name=Polymer Riot Baton
 item.rewired.baton.carbon.name=Carbon Riot Baton
 item.rewired.baton.plasteel.name=Plasteel Riot Baton
 item.rewired.baton.stun.name=Stun Baton
 
-itemGroup.rewired=ReWIRED
+entity.Villager.chopper=Chopper
+entity.Villager.runner=Runner

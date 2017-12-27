@@ -2,18 +2,22 @@ package com.mr208.rewired.common;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.mr208.rewired.common.entities.EntityCyberSkeleton;
 import com.mr208.rewired.common.handlers.ConfigHandler;
 import com.mr208.rewired.common.items.augments.*;
 import flaxbeard.cyberware.common.CyberwareContent;
 import net.minecraft.block.Block;
+import net.minecraft.entity.IMerchant;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import net.minecraft.util.WeightedRandom;
+import net.minecraft.village.MerchantRecipeList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
@@ -29,6 +33,7 @@ import flaxbeard.cyberware.common.misc.NNLUtil;
 import com.mr208.rewired.ReWIRED;
 import com.mr208.rewired.common.items.armor.ItemReWIREDShield;
 import com.mr208.rewired.common.entities.EntityRailRider;
+import net.minecraftforge.fml.common.registry.VillagerRegistry;
 
 @Mod.EventBusSubscriber(modid = ReWIRED.MOD_ID)
 public class ReWIREDContent

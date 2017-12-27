@@ -4,6 +4,8 @@ import com.mr208.rewired.common.CommonProxy;
 import com.mr208.rewired.common.ReWIREDContent;
 import com.mr208.rewired.common.effects.ReWIREDEffects;
 import com.mr208.rewired.common.handlers.NetworkHandler;
+import com.mr208.rewired.common.handlers.VillagerHandler;
+import flaxbeard.cyberware.api.item.ICyberware;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -36,11 +38,14 @@ public class ReWIRED
 
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
+	public static final ICyberware.Quality QUALITY_PROTOTYPE = new ICyberware.Quality("rewired.quality.prototype","rewired.quality.prototype.name_modifier", "prototype");
+
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent event)
 	{
 		ReWIREDContent.onPreInit();
 		ReWIREDEffects.onPreInit();
+		VillagerHandler.onPreInit();
 	}
 
 	@EventHandler

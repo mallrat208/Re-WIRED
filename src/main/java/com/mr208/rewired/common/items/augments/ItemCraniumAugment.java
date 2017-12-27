@@ -1,5 +1,6 @@
 package com.mr208.rewired.common.items.augments;
 
+import com.mr208.rewired.ReWIRED;
 import com.mr208.rewired.common.handlers.ConfigHandler;
 import com.mr208.rewired.common.util.CyberwareHelper;
 import flaxbeard.cyberware.api.CyberwareAPI;
@@ -148,7 +149,7 @@ public class ItemCraniumAugment extends ItemAugment
 		if(item.isDead)
 			return false;
 
-		if(BLACKLIST.contains(item.getItem()))
+		if(BLACKLIST.contains(item.getItem().getItem()))
 			return false;
 
 		//Prevent Movement from IE Conveyors
@@ -164,14 +165,17 @@ public class ItemCraniumAugment extends ItemAugment
 		BLACKLIST = new ArrayList<>();
 		for(String item: ConfigHandler.Augments.ecd.BLACKLIST)
 		{
-			String[] blacklistedItem = item.split("@");
+			String[] blacklistedItem = item.split(":");
 			if(blacklistedItem.length==2)
 			{
-				Item blItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(blacklistedItem[0],blacklistedItem[1]));
+				Item blItem = Item.REGISTRY.getObject(new ResourceLocation(blacklistedItem[0],blacklistedItem[1]));
+
 				if(blItem != null)
 					BLACKLIST.add(blItem);
 			}
 		}
+
+		ReWIRED.LOGGER.info(BLACKLIST);
 	}
 
 }
