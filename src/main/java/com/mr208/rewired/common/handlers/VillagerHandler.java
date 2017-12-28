@@ -1,19 +1,18 @@
 package com.mr208.rewired.common.handlers;
 
+import java.util.Random;
+
 import com.mr208.rewired.ReWIRED;
 import com.mr208.rewired.common.ReWIREDContent;
 import flaxbeard.cyberware.api.CyberwareAPI;
 import flaxbeard.cyberware.api.item.ICyberware;
 import flaxbeard.cyberware.common.CyberwareContent;
-import flaxbeard.cyberware.common.handler.CyberwareDataHandler;
-import flaxbeard.cyberware.common.item.ItemArmorCyberware;
 import flaxbeard.cyberware.common.item.ItemBlueprint;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Tuple;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraftforge.event.RegistryEvent;
@@ -21,228 +20,272 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
 
-import java.util.Random;
-
 @Mod.EventBusSubscriber(modid = ReWIRED.MOD_ID)
 public class VillagerHandler
 {
-	public static VillagerRegistry.VillagerProfession chopperProfession;
-	public static VillagerRegistry.VillagerProfession runnerProfession;
+	public static VillagerRegistry.VillagerProfession cyberwareVillager;
 
 	public static VillagerRegistry.VillagerCareer chopperCareer;
-	public static VillagerRegistry.VillagerCareer runnerCarrer;
+	public static VillagerRegistry.VillagerCareer runnerCareer;
+	public static VillagerRegistry.VillagerCareer deckerCareer;
+	public static VillagerRegistry.VillagerCareer bladeCareer;
 
 	public static void onPreInit()
 	{
-		//chopperProfession = new VillagerRegistry.VillagerProfession("rewired:chopper",
-		//		"rewired:textures/entities/villagers/chopper.png",
-		//		"rewired:textures/entities/villagers/zombie_chopper.png");
-		runnerProfession = new VillagerRegistry.VillagerProfession("rewired:runner",
+		cyberwareVillager = new VillagerRegistry.VillagerProfession("rewired:runner",
 				"rewired:textures/entities/villagers/runner.png",
 				"rewired:textures/entities/villagers/zombie_runner.png");
-		//chopperCareer = new VillagerRegistry.VillagerCareer(chopperProfession, "chopper");
-		runnerCarrer = new VillagerRegistry.VillagerCareer(runnerProfession, "runner");
 
-		//Level 1 - Equipment
-		runnerCarrer.addTrade(1,
-				new EntityVillager.ListItemForEmeralds(CyberwareContent.trenchcoat,new EntityVillager.PriceInfo(3,6)));
-		runnerCarrer.addTrade(1,
-				new EntityVillager.ListItemForEmeralds(CyberwareContent.jacket,new EntityVillager.PriceInfo(3,6)));
-		runnerCarrer.addTrade(1,
-				new EntityVillager.ListItemForEmeralds(CyberwareContent.shades,new EntityVillager.PriceInfo(3,6)));
-		runnerCarrer.addTrade(1,
-				new EntityVillager.ListItemForEmeralds(CyberwareContent.shades2,new EntityVillager.PriceInfo(3,6)));
-		//Level 2 - Scavenged Augs
-		runnerCarrer.addTrade(2,
-				new CyberwareForEmeralds(CyberwareContent.eyeUpgrades,0,CyberwareAPI.QUALITY_SCAVENGED,new EntityVillager.PriceInfo(5,12)));
-		runnerCarrer.addTrade(2,
-				new CyberwareForEmeralds(CyberwareContent.cybereyeUpgrades,3,CyberwareAPI.QUALITY_SCAVENGED, new EntityVillager.PriceInfo(6,13)));
-		runnerCarrer.addTrade(2,
-				new CyberwareForEmeralds(CyberwareContent.brainUpgrades, 4, CyberwareAPI.QUALITY_SCAVENGED, new EntityVillager.PriceInfo(6,13)));
-		runnerCarrer.addTrade(2,
-				new CyberwareForEmeralds(CyberwareContent.lungsUpgrades, 1, CyberwareAPI.QUALITY_SCAVENGED, new EntityVillager.PriceInfo(6,13)));
-		runnerCarrer.addTrade(2,
-				new CyberwareForEmeralds(CyberwareContent.skinUpgrades,1, CyberwareAPI.QUALITY_SCAVENGED, new EntityVillager.PriceInfo(6,13)));
-		runnerCarrer.addTrade(2,
-				new CyberwareForEmeralds(CyberwareContent.muscleUpgrades,0, CyberwareAPI.QUALITY_SCAVENGED, new EntityVillager.PriceInfo(6,13)));
-		runnerCarrer.addTrade(2,
-				new CyberwareForEmeralds(CyberwareContent.handUpgrades, 1, CyberwareAPI.QUALITY_SCAVENGED, new EntityVillager.PriceInfo(6,13)));
-		//Level 3 - Weapons?
-		runnerCarrer.addTrade(3,
-				new EntityVillager.ListEnchantedItemForEmeralds(CyberwareContent.katana, new EntityVillager.PriceInfo(12,19)));
+		runnerCareer = new VillagerRegistry.VillagerCareer(cyberwareVillager, "runner");
+		//chopperCareer = new VillagerRegistry.VillagerCareer(cyberwareVillager, "chopper");
+		//deckerCareer = new VillagerRegistry.VillagerCareer(cyberwareVillager, "decker");
+		//bladeCareer = new VillagerRegistry.VillagerCareer(cyberwareVillager, "blade");
 
-		//Level 4 - Blueprints! PKB, DERPS,
-		runnerCarrer.addTrade(4,
-				new BlueprintsForEmeralds(ReWIREDContent.handAugments,1 ,new EntityVillager.PriceInfo(9,12)));
-		runnerCarrer.addTrade(4,
-				new BlueprintsForEmeralds(ReWIREDContent.skinAugments,0 ,new EntityVillager.PriceInfo(9,12)));
-		runnerCarrer.addTrade(4,
-				new BlueprintsForEmeralds(CyberwareContent.brainUpgrades,2 ,new EntityVillager.PriceInfo(9,12)));
+		ItemStack[] cyberEquipment = {
+				new ItemStack(CyberwareContent.trenchcoat),
+				new ItemStack(CyberwareContent.jacket),
+				new ItemStack(CyberwareContent.shades),
+				new ItemStack(CyberwareContent.shades2)};
 
+		//Runner - Level 1 Trades
+		RandomItemsForEmeralds clothingTrade1 = new RandomItemsForEmeralds(new EntityVillager.PriceInfo(11,17),cyberEquipment.clone());
 
+		runnerCareer.addTrade(1, clothingTrade1);
+		runnerCareer.addTrade(1, new EntityVillager.EmeraldForItems(CyberwareContent.neuropozyne, new EntityVillager.PriceInfo(1,2)));
+
+		//Runner - Level 2 Trades
+		RandomCyberwareForEmeralds cyberwareTrade2 = new RandomCyberwareForEmeralds(new EntityVillager.PriceInfo(6,13),
+				CyberwareAPI.QUALITY_SCAVENGED,
+				new ItemStack(CyberwareContent.eyeUpgrades,1,0),
+				new ItemStack(CyberwareContent.cybereyeUpgrades,1,3),
+				new ItemStack(CyberwareContent.brainUpgrades, 1,4),
+				new ItemStack(CyberwareContent.lungsUpgrades, 1,1),
+				new ItemStack(CyberwareContent.skinUpgrades,1,1),
+				new ItemStack(CyberwareContent.muscleUpgrades,1,0),
+				new ItemStack(CyberwareContent.handUpgrades, 1,1));
+
+		runnerCareer.addTrade(2, cyberwareTrade2);
+		runnerCareer.addTrade(2, new EmeraldsForRandomItem(new EntityVillager.PriceInfo(3,8), new ItemStack(CyberwareContent.katana)));
+
+		//Runner - Level 3 Trades
+		EmeraldsForRandomCyberware cyberwareTrade3 = new EmeraldsForRandomCyberware(new EntityVillager.PriceInfo(6,13),
+				CyberwareAPI.QUALITY_MANUFACTURED,
+				new ItemStack(CyberwareContent.eyeUpgrades,1,0),
+				new ItemStack(CyberwareContent.cybereyeUpgrades,1,3),
+				new ItemStack(CyberwareContent.brainUpgrades, 1,4),
+				new ItemStack(CyberwareContent.lungsUpgrades, 1,1),
+				new ItemStack(CyberwareContent.skinUpgrades,1,1),
+				new ItemStack(CyberwareContent.muscleUpgrades,1,0),
+				new ItemStack(CyberwareContent.handUpgrades, 1,1));
+
+		runnerCareer.addTrade(3, cyberwareTrade3);
+		runnerCareer.addTrade(3,
+				new RandomBlueprintsForEmeralds(new EntityVillager.PriceInfo(9,12),
+						new ItemStack(CyberwareContent.brainUpgrades,1,2),
+						new ItemStack(ReWIREDContent.skinAugments,1,0),
+						new ItemStack(ReWIREDContent.handAugments, 1,1)));
+		runnerCareer.addTrade(3,
+				new RandomEnchantedItemForEmeralds(new EntityVillager.PriceInfo(11,19), 35, cyberEquipment.clone()));
 	}
 
 	@SubscribeEvent
 	public static void registerVillager(RegistryEvent.Register<VillagerRegistry.VillagerProfession> event)
 	{
 		//event.getRegistry().register(chopperProfession);
-		event.getRegistry().register(runnerProfession);
+		event.getRegistry().register(cyberwareVillager);
 	}
 
-	private static class ItemsForComponents implements EntityVillager.ITradeList
+	static class RandomEnchantedItemForEmeralds implements EntityVillager.ITradeList
 	{
-		public ItemStack buyingItemStack;
-		public ComponentPrice price;
+		ItemStack[] items;
+		EntityVillager.PriceInfo price;
+		int level;
 
-		public ItemsForComponents(ItemStack itemStackIn, ComponentPrice componentPrice)
+		public RandomEnchantedItemForEmeralds(EntityVillager.PriceInfo priceInfo, int level, ItemStack... items)
 		{
-			this.buyingItemStack = itemStackIn;
-			this.price = componentPrice;
-		}
-
-		public ItemsForComponents(Item itemIn, ComponentPrice componentPrice)
-		{
-			this.buyingItemStack = new ItemStack(itemIn);
-			this.price = componentPrice;
+			this.items = items;
+			this.price = priceInfo;
+			this.level = level;
 		}
 
 		@Override
 		public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
 		{
 			int i = 1;
-			if(this.price != null)
+			if(this.price!=null)
 				i = this.price.getPrice(random);
 
-			ItemStack tradeStack = this.buyingItemStack.copy();
-			ItemStack componentStack = this.price.getComponent(random).copy();
-
-			if(i<0)
-			{
-				componentStack.setCount(1);
-				tradeStack.setCount(i);
-
-				recipeList.add(new MerchantRecipe(tradeStack, componentStack));
-			}
+			ItemStack emeraldsIn = new ItemStack(Items.EMERALD, i, 0);
+			ItemStack enchantedOut;
+			if(this.items.length==1)
+				enchantedOut = EnchantmentHelper.addRandomEnchantment(random, this.items[0], this.level, true);
 			else
-			{
-				recipeList.add(new MerchantRecipe(componentStack, tradeStack));
-			}
+				enchantedOut = EnchantmentHelper.addRandomEnchantment(random, this.items[random.nextInt(this.items.length)], this.level, true);
+
+			recipeList.add(new MerchantRecipe(emeraldsIn, enchantedOut));
 		}
 	}
 
-	static class CyberwareForEmeralds implements EntityVillager.ITradeList
+	static class EmeraldsForRandomItem implements EntityVillager.ITradeList
 	{
-		public Item cyberware;
-		public int meta;
-		public ICyberware.Quality quality;
-		public EntityVillager.PriceInfo price;
+		ItemStack[] items;
+		EntityVillager.PriceInfo price;
 
-		public CyberwareForEmeralds(Item cyberwareItem, int meta, ICyberware.Quality quality, EntityVillager.PriceInfo priceInfo)
+		public EmeraldsForRandomItem(EntityVillager.PriceInfo priceInfo, ItemStack... items)
 		{
-			this.cyberware = cyberwareItem;
-			this.meta = meta;
+			this.items = items;
+			this.price = priceInfo;
+		}
+
+		@Override
+		public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
+		{
+			int i = 1;
+			if(this.price!=null)
+				i = this.price.getPrice(random);
+
+			ItemStack emeraldsOut = new ItemStack(Items.EMERALD, i, 0);
+
+			ItemStack itemIn;
+			if(this.items.length==0)
+				itemIn = this.items[0].copy();
+			else
+				itemIn = this.items[random.nextInt(this.items.length)].copy();
+
+			recipeList.add(new MerchantRecipe(itemIn, emeraldsOut));
+		}
+	}
+
+	static class EmeraldsForRandomCyberware implements EntityVillager.ITradeList
+	{
+		ItemStack[] cyberware;
+		EntityVillager.PriceInfo price;
+		ICyberware.Quality quality;
+
+		public EmeraldsForRandomCyberware(EntityVillager.PriceInfo priceInfo, ICyberware.Quality quality, ItemStack... cyberware)
+		{
+			this.cyberware = cyberware;
+			this.price = priceInfo;
 			this.quality = quality;
-			this.price = priceInfo;
 		}
 
 		@Override
 		public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
 		{
 			int i = 1;
-
-			if(this.price != null)
+			if(this.price!=null)
 				i = this.price.getPrice(random);
 
-			ItemStack emeraldIn = new ItemStack(Items.EMERALD, i, 0);
-			ItemStack cyberStack = new ItemStack(this.cyberware, 1, this.meta);
-			CyberwareAPI.writeQualityTag(cyberStack, this.quality);
+			ItemStack emeraldsOut = new ItemStack(Items.EMERALD, i,0);
+			ItemStack cyberwareIn;
 
-			recipeList.add(new MerchantRecipe(emeraldIn, cyberStack));
-		}
-	}
-
-	static class BlueprintsForEmeralds implements EntityVillager.ITradeList
-	{
-		public EntityVillager.PriceInfo price;
-		public ItemStack blueprint;
-
-		public BlueprintsForEmeralds(Item cyberwareItem, int meta, EntityVillager.PriceInfo priceInfo)
-		{
-			this(new ItemStack(cyberwareItem,1, meta), priceInfo);
-		}
-
-		public BlueprintsForEmeralds(ItemStack cyberwareStack, EntityVillager.PriceInfo priceInfo)
-		{
-			this.price = priceInfo;
-			this.blueprint =  ItemBlueprint.getBlueprintForItem(cyberwareStack);
-		}
-
-		@Override
-		public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
-		{
-			int i = 1;
-
-			if(this.price != null)
-				i = this.price.getPrice(random);
-
-			ItemStack blueprintOut = this.blueprint.copy();
-			ItemStack emeraldIn = new ItemStack(Items.EMERALD,i,0);
-
-			recipeList.add(new MerchantRecipe(emeraldIn, blueprintOut));
-		}
-	}
-
-	public static class ComponentPrice extends Tuple<Integer, Integer>
-	{
-		public Type component;
-
-		public ComponentPrice(int min, int max)
-		{
-			this(Type.NONE, min, max);
-		}
-
-		public ComponentPrice(Type component, int min, int max)
-		{
-			super(min, max);
-			this.component = component;
-
-			if(max < min)
-				ReWIRED.LOGGER.warn("ComponentPrice({}. {}) is invalid. {} is smaller than {}", min, max, max, min);
-		}
-
-		public int getPrice(Random rand)
-		{
-			return this.getFirst() >= this.getSecond() ? this.getFirst(): this.getFirst() + rand.nextInt( this.getSecond()-this.getFirst() + 1);
-		}
-
-		public ItemStack getComponent(Random rand)
-		{
-			int meta;
-			if(component == Type.NONE)
-			{
-				meta = rand.nextInt(10);
-			}
+			if(this.cyberware.length==1)
+				cyberwareIn = CyberwareAPI.writeQualityTag(this.cyberware[0],this.quality).copy();
 			else
-			{
-				meta = this.component.ordinal();
-			}
+				cyberwareIn = CyberwareAPI.writeQualityTag(this.cyberware[random.nextInt(this.cyberware.length)], this.quality).copy();
 
-			return new ItemStack(CyberwareContent.component, getPrice(rand), meta);
+			recipeList.add(new MerchantRecipe(cyberwareIn, emeraldsOut));
+		}
+	}
+
+	static class RandomItemsForEmeralds implements EntityVillager.ITradeList
+	{
+		EntityVillager.PriceInfo price;
+		ItemStack[] items;
+
+		public RandomItemsForEmeralds(EntityVillager.PriceInfo priceInfo, ItemStack... items)
+		{
+			this.price = priceInfo;
+			this.items = items;
 		}
 
-		public enum Type
+		@Override
+		public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
 		{
-			NONE,
-			ACTUATOR,
-			BIOREACTOR,
-			TITANIUM_MESH,
-			SOLIDSTATE_CIRCUITRY,
-			CHROME_PLATING,
-			FIBER_OPTICS,
-			FULLERENE_MICROSTRUCTURES,
-			SYNTHETIC_NERVES,
-			STORAGE_CELL,
-			MICROELECTRIC_CELLS;
+			ItemStack emeraldsIn;
+			ItemStack itemOut;
+
+			int i = 1;
+			if(this.price!=null)
+				i = this.price.getPrice(random);
+
+			emeraldsIn = new ItemStack(Items.EMERALD, i, 0);
+
+			if(this.items.length==1)
+				itemOut = this.items[0];
+			else
+				itemOut = this.items[random.nextInt(this.items.length)].copy();
+
+			recipeList.add(new MerchantRecipe(emeraldsIn, itemOut));
+		}
+	}
+
+	static class RandomBlueprintsForEmeralds implements EntityVillager.ITradeList
+	{
+		ItemStack[] cyberware;
+		EntityVillager.PriceInfo price;
+
+		public RandomBlueprintsForEmeralds(EntityVillager.PriceInfo price, ItemStack... cyberware)
+		{
+			this.cyberware = cyberware;
+			this.price = price;
+		}
+
+		@Override
+		public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
+		{
+			int i = 1;
+
+			if(this.price!=null)
+				i = this.price.getPrice(random);
+
+			ItemStack emeraldsIn = new ItemStack(Items.EMERALD,i,0).copy();
+			ItemStack blueprintItem;
+
+			if(this.cyberware.length==1)
+				blueprintItem = this.cyberware[0];
+			else
+				blueprintItem = this.cyberware[random.nextInt(this.cyberware.length)].copy();
+
+			ItemStack blueprintOut = ItemBlueprint.getBlueprintForItem(blueprintItem);
+
+			recipeList.add(new MerchantRecipe(emeraldsIn,blueprintOut));
+
+		}
+	}
+
+	static class RandomCyberwareForEmeralds implements EntityVillager.ITradeList
+	{
+		ItemStack[] cyberware;
+		EntityVillager.PriceInfo price;
+		ICyberware.Quality quality;
+
+		public RandomCyberwareForEmeralds(EntityVillager.PriceInfo priceInfo, ICyberware.Quality quality, ItemStack... cyberware)
+		{
+			this.cyberware = cyberware;
+			this.price = priceInfo;
+			this.quality = quality;
+		}
+
+		@Override
+		public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
+		{
+			int i = 1;
+
+			if(this.price!=null)
+				i = this.price.getPrice(random);
+
+			ItemStack emeraldsIn = new ItemStack(Items.EMERALD, i, 0).copy();
+			ItemStack cyberStack;
+
+			if(this.cyberware.length==1)
+				cyberStack = this.cyberware[0].copy();
+			else
+				cyberStack = this.cyberware[random.nextInt(this.cyberware.length)].copy();
+
+			ItemStack qualityStackOut = CyberwareAPI.writeQualityTag(cyberStack, this.quality);
+
+			recipeList.add(new MerchantRecipe(emeraldsIn, qualityStackOut));
 		}
 	}
 }
