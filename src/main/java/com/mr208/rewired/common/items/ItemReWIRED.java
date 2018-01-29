@@ -8,57 +8,70 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import java.util.ArrayList;
-
 public class ItemReWIRED extends Item
 {
 	public String name;
-	public String[] subnames;
-	public boolean hiddenItem = false;
+	public String[] subNames;
+	public boolean registerSubModels = false;
 	public boolean[] hiddenItems;
+	
 
 	public ItemReWIRED(String name, String... subnames)
 	{
 		this.name = name;
-		this.subnames = subnames;
-
+		this.subNames = subnames;
 		this.setUnlocalizedName(ReWIRED.MOD_ID+"."+name);
-		this.setRegistryName(ReWIRED.MOD_ID, name);
-		ForgeRegistries.ITEMS.register(this);
-		this.setHasSubtypes(this.subnames.length>0);
-		hiddenItems = new boolean[this.subnames.length>0?this.subnames.length:0];
-		for(int i = 0; i<subnames.length-1;i++)
-			hiddenItems[i] = false;
-
-		this.setMaxDamage(0);
+		this.setHasSubtypes(subnames!=null&&subnames.length>0);
 		this.setCreativeTab(ReWIRED.creativeTab);
-
+		this.setMaxStackSize(64);
+		this.hiddenItems = new boolean[this.subNames.length>0?this.subNames.length:1];
+		this.setRegistryName(ReWIRED.MOD_ID, name);
 		ReWIREDContent.registeredItems.add(this);
+		ForgeRegistries.ITEMS.register(this);
 	}
-
-	public ItemReWIRED setItemHidden()
+	
+	public String[] getSubNames()
 	{
-		this.hiddenItem = true;
-		return this;
+		return subNames;
 	}
-
-	public ItemReWIRED setItemMetaHidden(int ... metaHidden)
+	
+	public ItemReWIRED setMetaHidden(int ... metaHidden)
 	{
 		for(int meta:metaHidden)
-			hiddenItems[meta] = true;
-
+			if(meta >= 0 && meta < this.hiddenItems.length) this.hiddenItems[meta]=true;
+		
 		return this;
 	}
-
-	@Override
-	public String getUnlocalizedName(ItemStack itemStack)
+	
+	public ItemReWIRED setMetaUnhidden(int ... metaHidden)
 	{
-		int damage = itemStack.getItemDamage();
-		if(damage>=subnames.length)
+		for(int meta:metaHidden)
+			if(meta >= 0 && meta < this.hiddenItems.length) this.hiddenItems[meta]=false;
+		
+		return this;
+	}
+	
+	public boolean isMetaHidden(int meta)
+	{
+		return this.hiddenItems[Math.max(0, Math.min(meta, this.hiddenItems.length))];
+	}
+	
+	public ItemReWIRED setRegisterSubModels(boolean registerSubModels)
+	{
+		this.registerSubModels = registerSubModels;
+		
+		return this;
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack itemstack)
+	{
+		int damage = itemstack.getItemDamage();
+		if (damage >= subNames.length)
 		{
 			return super.getUnlocalizedName();
 		}
-		return super.getUnlocalizedName(itemStack) + "." + subnames[damage];
+		return super.getUnlocalizedName(itemstack) + "." + subNames[damage];
 	}
 
 	@Override
@@ -66,13 +79,16 @@ public class ItemReWIRED extends Item
 	{
 		if(this.isInCreativeTab(tab))
 		{
-			if(subnames.length==0)
+			if(getSubNames().length>0)
 			{
-				items.add(new ItemStack(this));
+				for(int i = 0; i<getSubNames().length; i++)
+				{
+					if(!isMetaHidden(i)) items.add(new ItemStack(this, 1, i));
+				}
 			}
-			for(int i=0; i<subnames.length; i++)
+			else
 			{
-				items.add(new ItemStack(this, 1, i));
+				if(!isMetaHidden(0)) items.add(new ItemStack(this));
 			}
 		}
 	}

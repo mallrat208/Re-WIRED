@@ -3,6 +3,7 @@ package com.mr208.rewired.common.items.augments;
 import com.mojang.realmsclient.gui.ChatFormatting;
 
 import flaxbeard.cyberware.api.item.*;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.relauncher.Side;
@@ -37,6 +38,7 @@ public class ItemAugment extends ItemReWIRED implements ICyberware, ICyberwareTa
 
 		this.slots = slots;
 		this.essence = new int[subnames.length+1];
+		this.weight = new int[subnames.length+1];
 		this.components = NonNullList.create();
 
 		this.setCreativeTab(Cyberware.creativeTab);
@@ -112,7 +114,7 @@ public class ItemAugment extends ItemReWIRED implements ICyberware, ICyberwareTa
 
 	protected int getUnmodifiedEssenceCost(ItemStack stack)
 	{
-		return essence[Math.min(this.subnames.length, stack.getItemDamage())];
+		return essence[Math.min(this.subNames.length, stack.getItemDamage())];
 	}
 
 	@Override
@@ -155,7 +157,7 @@ public class ItemAugment extends ItemReWIRED implements ICyberware, ICyberwareTa
 	public List<String> getStackDesc(ItemStack itemStack)
 	{
 		String[] toReturnArray = I18n.format("cyberware.tooltip." + this.getRegistryName().toString().substring(8)
-				+ (this.subnames.length > 0 ? "." + itemStack.getItemDamage() : "")).split("\\\\n");
+				+ (this.subNames.length > 0 ? "." + itemStack.getItemDamage() : "")).split("\\\\n");
 		List<String> toReturn = new ArrayList<String>(Arrays.asList(toReturnArray));
 
 		if(toReturn.size() > 0 && toReturn.get(0).length() == 0)
@@ -198,8 +200,8 @@ public class ItemAugment extends ItemReWIRED implements ICyberware, ICyberwareTa
 		if (hasPowerConsumption)
 		{
 			String toTranslate = hasCustomPowerMessage(stack) ?
-					"cyberware.tooltip." + this.getRegistryName().toString().substring(10)
-							+ (this.subnames.length > 0 ? "." + stack.getItemDamage() : "") + ".power_consumption"
+					"cyberware.tooltip." + this.getRegistryName().toString().substring(8)
+							+ (this.subNames.length > 0 ? "." + stack.getItemDamage() : "") + ".power_consumption"
 					:
 					"cyberware.tooltip.power_consumption";
 			toReturn.add(ChatFormatting.GREEN + I18n.format(toTranslate, toAddPowerConsumption));
@@ -228,8 +230,8 @@ public class ItemAugment extends ItemReWIRED implements ICyberware, ICyberwareTa
 		if (hasPowerProduction)
 		{
 			String toTranslate = hasCustomPowerMessage(stack) ?
-					"cyberware.tooltip." + this.getRegistryName().toString().substring(10)
-							+ (this.subnames.length > 0 ? "." + stack.getItemDamage() : "") + ".power_production"
+					"cyberware.tooltip." + this.getRegistryName().toString().substring(8)
+							+ (this.subNames.length > 0 ? "." + stack.getItemDamage() : "") + ".power_production"
 					:
 					"cyberware.tooltip.power_production";
 			toReturn.add(ChatFormatting.GREEN + I18n.format(toTranslate, toAddPowerProduction));
@@ -238,8 +240,8 @@ public class ItemAugment extends ItemReWIRED implements ICyberware, ICyberwareTa
 		if (getCapacity(stack) > 0)
 		{
 			String toTranslate = hasCustomCapacityMessage(stack) ?
-					"cyberware.tooltip." + this.getRegistryName().toString().substring(10)
-							+ (this.subnames.length > 0 ? "." + stack.getItemDamage() : "") + ".capacity"
+					"cyberware.tooltip." + this.getRegistryName().toString().substring(8)
+							+ (this.subNames.length > 0 ? "." + stack.getItemDamage() : "") + ".capacity"
 					:
 					"cyberware.tooltip.capacity";
 			toReturn.add(ChatFormatting.GREEN + I18n.format(toTranslate, getCapacity(stack)));
@@ -420,6 +422,21 @@ public class ItemAugment extends ItemReWIRED implements ICyberware, ICyberwareTa
 	{
 
 		return EnableDisableHelper.isEnabled(itemStack) ? enabledColor : null;
+	}
+	
+	@Override
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items)
+	{
+		if (this.isInCreativeTab(tab)) {
+			if (subNames.length == 0)
+			{
+				items.add(new ItemStack(this));
+			}
+			for (int i = 0; i < subNames.length; i++)
+			{
+				items.add(new ItemStack(this, 1, i));
+			}
+		}
 	}
 }
 

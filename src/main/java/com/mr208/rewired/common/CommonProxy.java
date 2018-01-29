@@ -1,25 +1,21 @@
 package com.mr208.rewired.common;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelBiped;
-import net.minecraft.client.model.ModelParrot;
-import net.minecraft.item.Item;
+import com.mr208.rewired.common.effects.ReWIREDEffects;
+import com.mr208.rewired.common.handlers.NetworkHandler;
+import com.mr208.rewired.common.handlers.VillagerHandler;
 
 public class CommonProxy
 {
 	public void onPreInit()
 	{
-
+		ReWIREDContent.onPreInit();
+		ReWIREDEffects.onPreInit();
+		VillagerHandler.onPreInit();
 	}
-
-	public void registerRenders(Block block)
+	
+	public void onInit()
 	{
-
-	}
-
-	public void registerRenders(Item item)
-	{
-
+		ReWIREDContent.onInit();
+		NetworkHandler.init();
 	}
 }

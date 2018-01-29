@@ -28,7 +28,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ItemHandAugment extends ItemAugment
 {
-	public int REINFORCED_ALLOYED_FIST = 0;
 
 	@GameRegistry.ObjectHolder("cyberware:hand_upgrades")
 	public static final Item CYBERWARE_HAND_UPGRADE = null;
@@ -48,7 +47,7 @@ public class ItemHandAugment extends ItemAugment
 	@Override
 	public int getPowerConsumption(ItemStack itemStack)
 	{
-		return itemStack.getItemDamage() == 1?ConfigHandler.Augments.pkb.ENERGY_COST: super.getPowerConsumption(itemStack);
+		return itemStack.getItemDamage() == 1 ? ConfigHandler.Augments.pkb.ENERGY_COST : super.getPowerConsumption(itemStack);
 	}
 
 	@Override

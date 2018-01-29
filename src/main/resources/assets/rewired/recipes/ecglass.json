@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "rewired:ecglass",
+    "count": 8
+  },
+  "pattern": [
+    "GGG",
+    "GOG",
+    "GGG"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "G": { "type": "forge:ore_dict", "ore": "blockGlass"},
+    "O": { "item": "cyberware:component", "data": 5}
+  }
+}

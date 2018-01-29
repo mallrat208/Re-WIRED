@@ -1,10 +1,15 @@
 package com.mr208.rewired.common.items.augments;
 
+import com.mr208.rewired.common.handlers.ConfigHandler;
+import com.mr208.rewired.common.handlers.ConfigHandler.Augments;
 import com.mr208.rewired.common.util.CyberwareHelper;
 import flaxbeard.cyberware.api.CyberwareAPI;
 import flaxbeard.cyberware.api.ICyberwareUserData;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
@@ -12,9 +17,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.EnderTeleportEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
 import java.util.Random;
 
 public class ItemTorsoAugment extends ItemAugment
@@ -25,19 +30,42 @@ public class ItemTorsoAugment extends ItemAugment
 
 		MinecraftForge.EVENT_BUS.register(this);
 	}
-
+	
+	@Override
+	public int getPowerConsumption(ItemStack itemStack)
+	{
+		if(itemStack.getItemDamage() == 0)
+		{
+			return Augments.derps.ENERGY_COST;
+		}
+		
+		return super.getPowerConsumption(itemStack);
+	}
+	
+	@Override
+	public boolean isIncompatible(ItemStack augment, ItemStack otherAugment)
+	{
+		return augment.getItemDamage() == 1 && CyberwareAPI.getCyberware(otherAugment).isEssential(otherAugment);
+	}
+	
+	@Override
+	public boolean isEssential(ItemStack augment)
+	{
+		return augment.getItemDamage() == 1;
+	}
+	
 	@Override
 	public boolean hasMenu(ItemStack itemStack)
 	{
 		return itemStack.getItemDamage() == 0;
 	}
-
+	
 	@Override
-	public boolean hasCustomCapacityMessage(ItemStack itemStack)
+	public boolean hasCustomPowerMessage(ItemStack itemStack)
 	{
 		return itemStack.getItemDamage() == 0;
 	}
-
+	
 	@SubscribeEvent
 	public void onLivingFall(LivingFallEvent event)
 	{
@@ -55,14 +83,14 @@ public class ItemTorsoAugment extends ItemAugment
 
 				event.setDistance(3F);
 
-				if(eventFallDistance*30 <= entityPower)
+				if(eventFallDistance * getPowerConsumption(new ItemStack(this,1,0)) <= entityPower)
 				{
-					data.usePower(new ItemStack(this,1,0),((int)eventFallDistance) * 30);
+					data.usePower(new ItemStack(this,1,0),((int)eventFallDistance) * getPowerConsumption(new ItemStack(this,1,0)));
 				}
 				else
 				{
-					int maxBlocks = Math.floorDiv(entityPower, 30);
-					data.usePower(new ItemStack(this,1,0), maxBlocks * 30);
+					int maxBlocks = Math.floorDiv(entityPower, getPowerConsumption(new ItemStack(this,1,0)));
+					data.usePower(new ItemStack(this,1,0), maxBlocks * getPowerConsumption(new ItemStack(this,1,0)));
 					event.setDistance(eventFallDistance-maxBlocks);
 				}
 
@@ -85,5 +113,30 @@ public class ItemTorsoAugment extends ItemAugment
 					CyberwareAPI.updateData(entityLivingBase);
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void onFinishUsing(LivingEntityUseItemEvent.Finish event)
+	{
+		EntityLivingBase entity = event.getEntityLiving();
+		ItemStack stack = event.getItem();
+		
+		if (entity instanceof EntityPlayer && CyberwareAPI.hasCapability(entity) && !stack.isEmpty() && isFood(stack))
+		{
+			if (CyberwareAPI.isCyberwareInstalled(entity, new ItemStack(this,1,1))) {
+				((EntityPlayer) event.getEntity()).getFoodStats().addStats(2, 2.0F);
+			}
+		}
+	}
+	
+	private boolean isFood(ItemStack itemStack)
+	{
+		if(itemStack.getItemUseAction() == EnumAction.EAT)
+			return true;
+		
+		if(itemStack.getItemUseAction() == EnumAction.DRINK && !(itemStack.getItem() instanceof ItemPotion))
+			return true;
+			
+		return false;
 	}
 }

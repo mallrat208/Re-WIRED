@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "rewired:powerbar"
+  },
+  "pattern": [
+    "WFW",
+    "RPR",
+    "WFW"
+  ],
+  "type": "forge:ore_shaped",
+  "key": {
+    "F": { "item": "minecraft:rotten_flesh"},
+    "W": { "item": "minecraft:nether_wart"},
+    "P": { "item": "minecraft:paper"},
+    "R": { "item": "minecraft:redstone"}
+  }
+}

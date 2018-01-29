@@ -10,7 +10,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-version = "1.0.0"
+version = "1.0.1"
 group = "com.mr208.rewired"
 archivesBaseName = "ReWIRED"
 
@@ -23,6 +23,10 @@ minecraft {
     version = "1.12.2-14.23.1.2577"
     runDir = "run"
     mappings = "snapshot_20171003"
+
+    replaceIn "ReWIRED.java"
+    replace "@MOD_VERSION@", "${version}"
+
 }
 
 dependencies {

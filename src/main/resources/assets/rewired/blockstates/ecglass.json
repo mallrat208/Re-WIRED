@@ -2,28 +2,28 @@
   "forge_marker":1,
   "defaults": {
     "textures": {
-      "all": "wired:blocks/ecglass_opaque"
+      "all": "rewired:blocks/ecglass_opaque"
     },
     "model": "cube_all"
   },
   "variants": {
     "normal":[{}],
-    "inventory":[{ "textures": {"all": "blocks/glass"}, "model": "cube_all" }],
-    "power=0": [{ "textures": {"all": "blocks/glass"}, "model": "cube_all" }],
-    "power=1": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=2": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=3": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=4": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=5": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=6": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=7": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=8": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=9": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=10": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=11": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=12": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=13": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=14": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }],
-    "power=15": [{ "textures": {"all": "wired:blocks/ecglass_opaque"}, "model": "cube_all"   }]
+    "inventory":[{ "textures": {"all": "rewired:blocks/ecglass_clear"}}],
+    "power=0": [{ "textures": {"all": "rewired:blocks/ecglass_clear"}}],
+    "power=1": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=2": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=3": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=4": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=5": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=6": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=7": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=8": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=9": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=10": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=11": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=12": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=13": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=14": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}],
+    "power=15": [{ "textures": {"all": "rewired:blocks/ecglass_opaque"}}]
   }
 }

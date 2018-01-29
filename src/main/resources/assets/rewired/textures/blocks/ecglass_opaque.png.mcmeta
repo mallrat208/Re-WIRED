@@ -1,0 +1,18 @@
+{
+    "ctm":{
+        "ctm_version": 1,
+        "type":"CTM",
+        "layer":"TRANSLUCENT",
+        "textures":[
+            "rewired:blocks/ecglass_opaque_ctm"
+        ],
+        "extra": {
+            "connect_to":[
+                { "block": "rewired:ecglass", "predicate": { "power": 0, "compare_func": "!=" }},
+		{ "block": "rewired:ecglass_white", "predicate": { "power": 0, "compare_func": "!=" }},
+		{ "block": "rewired:ecglass_orange", "predicate": { "power": 0, "compare_func": "!=" }}
+            ]
+
+        }
+    }
+}

@@ -1,7 +1,7 @@
 {
   "parent":"rewired:item/shield.polymer",
   "textures": {
-    "0": "rewired:items/shield/shield.plasteel"
+    "skin": "rewired:items/shield/shield.plasteel"
   },
   "overrides": [
     {

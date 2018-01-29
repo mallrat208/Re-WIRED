@@ -1,6 +1,7 @@
 package com.mr208.rewired.common.items.augments;
 
 import com.mr208.rewired.common.effects.ReWIREDEffects;
+import com.mr208.rewired.common.handlers.ConfigHandler;
 import com.mr208.rewired.common.util.CyberwareHelper;
 import flaxbeard.cyberware.api.CyberwareAPI;
 import flaxbeard.cyberware.api.CyberwareUpdateEvent;
@@ -24,10 +25,32 @@ public class ItemSkinAugment extends ItemAugment
 		super(name, slots, subnames);
 		MinecraftForge.EVENT_BUS.register(this);
 	}
+	
+	@Override
+	public void onAdded(EntityLivingBase entityLivingBase, ItemStack itemStack)
+	{
+		if(itemStack.getItemDamage() == 0)
+		{
+			ItemStack installed = CyberwareAPI.getCyberware(entityLivingBase, itemStack);
+			EnableDisableHelper.toggle(installed);
+		}
+	}
+	
 
 	@Override
 	public int getPowerConsumption(ItemStack itemStack)
 	{
+		if(itemStack.getItem() instanceof ItemSkinAugment)
+		{
+			switch (itemStack.getItemDamage())
+			{
+				case 0:
+					return ConfigHandler.Augments.TOC.ENERGY_COST;
+				default:
+					return super.getPowerConsumption(itemStack);
+			}
+		}
+
 		return super.getPowerConsumption(itemStack);
 	}
 
@@ -49,7 +72,6 @@ public class ItemSkinAugment extends ItemAugment
 				((EntityLivingBase) entity).removePotionEffect(MobEffects.INVISIBILITY);
 			}
 		}
-
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -76,7 +98,7 @@ public class ItemSkinAugment extends ItemAugment
 		if(entityLivingBase.ticksExisted % 20 == 0 && CyberwareHelper.isAugmentAvailable(entityLivingBase, test))
 		{
 			ICyberwareUserData data = CyberwareAPI.getCapability(entityLivingBase);
-			if(data.usePower(test, 40))
+			if(data.usePower(test, getPowerConsumption(test)))
 			{
 				entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.INVISIBILITY, Integer.MAX_VALUE, 0, true, false));
 			}

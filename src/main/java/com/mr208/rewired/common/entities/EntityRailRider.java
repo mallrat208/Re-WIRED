@@ -3,10 +3,14 @@ package com.mr208.rewired.common.entities;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecartEmpty;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+
+import javax.annotation.Nullable;
 
 public class EntityRailRider extends EntityMinecartEmpty
 {
@@ -56,7 +60,14 @@ public class EntityRailRider extends EntityMinecartEmpty
 			}
 		}
 	}
-
+	
+	@Nullable
+	@Override
+	public EntityItem entityDropItem(ItemStack stack, float offsetY)
+	{
+		return null;
+	}
+	
 	@Override
 	protected void moveDerailedMinecart()
 	{
@@ -73,7 +84,7 @@ public class EntityRailRider extends EntityMinecartEmpty
 	@Override
 	protected boolean canTriggerWalking()
 	{
-		return true;
+		return false;
 	}
 
 	@Override

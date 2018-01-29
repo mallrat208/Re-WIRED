@@ -1,0 +1,10 @@
+{
+    "ctm":{
+        "ctm_version": 1,
+        "type":"CTM",
+        "layer":"TRANSLUCENT",
+        "textures":[
+            "rewired:blocks/ecglass_clear_ctm"
+        ]
+    }
+}

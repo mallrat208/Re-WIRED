@@ -2,6 +2,7 @@ package com.mr208.rewired.common.items.augments;
 
 import com.mr208.rewired.ReWIRED;
 import com.mr208.rewired.common.handlers.ConfigHandler;
+import com.mr208.rewired.common.handlers.ConfigHandler.Augments;
 import com.mr208.rewired.common.util.CyberwareHelper;
 import flaxbeard.cyberware.api.CyberwareAPI;
 import flaxbeard.cyberware.api.CyberwareUpdateEvent;
@@ -20,6 +21,7 @@ import net.minecraftforge.event.entity.living.EnderTeleportEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,46 +40,27 @@ public class ItemCraniumAugment extends ItemAugment
 	@Override
 	public int getPowerConsumption(ItemStack itemStack)
 	{
-		if(itemStack.getItem() instanceof ItemCraniumAugment)
-		{
-			switch (itemStack.getItemDamage())
-			{
-				case 0:
-					return ConfigHandler.Augments.ecd.ENERGY_COST;
-				default:
-			}
-		}
+		if(itemStack.getItemDamage() == 0)
+			return Augments.ecd.ENERGY_COST;
 
-		return 0;
+		return super.getPowerConsumption(itemStack);
 	}
 
 	@Override
 	public boolean hasCustomPowerMessage(ItemStack itemStack)
 	{
-		if(itemStack.getItem() instanceof ItemCraniumAugment)
-		{
-			switch (itemStack.getItemDamage())
-			{
-				case 0:
-					return true;
-				default:
-			}
-		}
+		if(itemStack.getItemDamage() == 0)
+			return true;
+		
 		return super.hasCustomPowerMessage(itemStack);
 	}
 
 	@Override
 	public boolean hasMenu(ItemStack itemStack)
 	{
-		if(itemStack.getItem() instanceof ItemCraniumAugment)
-		{
-			switch (itemStack.getItemDamage())
-			{
-				case 0:
-					return true;
-				default:
-			}
-		}
+		if(itemStack.getItemDamage() == 0)
+			return true;
+		
 		return super.hasMenu(itemStack);
 	}
 
@@ -123,7 +106,7 @@ public class ItemCraniumAugment extends ItemAugment
 							if(maximum > ConfigHandler.Augments.ecd.AMOUNT)
 								break;
 
-							if(!data.usePower(test, ConfigHandler.Augments.ecd.ENERGY_COST))
+							if(!data.usePower(test, getPowerConsumption(test)))
 								break;
 
 							item.setPositionAndUpdate(x,y+0.75,z);
@@ -133,9 +116,9 @@ public class ItemCraniumAugment extends ItemAugment
 						}
 					}
 
-					if(hasCollected)
+					if(hasCollected && entityLivingBase.ticksExisted % 80 == 0)
 					{
-						entityLivingBase.world.playSound(null, entityLivingBase.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS,1.0f,1.0f);
+						entityLivingBase.world.playSound(null, entityLivingBase.getPosition(), SoundEvents.ENTITY_ENDERMEN_TELEPORT, SoundCategory.PLAYERS,0.6f,1.0f);
 					}
 
 					CyberwareAPI.updateData(entityLivingBase);
@@ -174,8 +157,5 @@ public class ItemCraniumAugment extends ItemAugment
 					BLACKLIST.add(blItem);
 			}
 		}
-
-		ReWIRED.LOGGER.info(BLACKLIST);
 	}
-
 }

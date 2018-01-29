@@ -1,15 +1,19 @@
 package com.mr208.rewired.common.entities;
 
 import com.mr208.rewired.common.ReWIREDContent;
-import com.mr208.rewired.common.handlers.EventHandler;
+import com.mr208.rewired.common.handlers.ConfigHandler;
+import com.mr208.rewired.common.handlers.ConfigHandler.Equipment;
 import com.mr208.rewired.common.util.CyberwareHelper;
 import flaxbeard.cyberware.api.CyberwareAPI;
 import flaxbeard.cyberware.api.CyberwareUserDataImpl;
 import flaxbeard.cyberware.api.item.ICyberware;
 import flaxbeard.cyberware.common.CyberwareConfig;
 import flaxbeard.cyberware.common.CyberwareContent;
+import flaxbeard.cyberware.common.CyberwareContent.ZombieItem;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -33,6 +37,7 @@ public class EntityCyberSkeleton extends EntitySkeleton implements ICyberEntity
 
 	public boolean hasWare;
 	private CyberwareUserDataImpl cyberware;
+	protected EntityAINearestAttackableTarget aiNearestAttackableTarget;
 
 	public EntityCyberSkeleton(World worldIn)
 	{
@@ -193,7 +198,21 @@ public class EntityCyberSkeleton extends EntitySkeleton implements ICyberEntity
 		//One Third of Skeletons should have a shield
 		if (chance > 0.0F && chance <= .34F && this.getHeldItem(EnumHand.OFF_HAND).isEmpty())
 		{
-			this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD).copy());
+			ItemStack shield = new ItemStack(Items.SHIELD).copy();
+			
+			if(Equipment.shields.enableShields)
+			{
+				float shieldType = this.world.rand.nextFloat();
+				
+				if(shieldType > 0.85F)
+					shield = setRandomDamage(new ItemStack(ReWIREDContent.itemShieldPlasteel).copy());
+				if(shieldType < 0.85F && shieldType > 0.75F)
+					shield = setRandomDamage(new ItemStack(ReWIREDContent.itemShieldCarbon).copy());
+				if(shieldType < 0.75F && shieldType > 0.5F)
+					shield = setRandomDamage(new ItemStack(ReWIREDContent.itemShieldPolymer).copy());
+			}
+			
+			this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, shield);
 			this.setDropChance(EntityEquipmentSlot.OFFHAND, 0.25F);
 		}
 	}
@@ -209,9 +228,7 @@ public class EntityCyberSkeleton extends EntitySkeleton implements ICyberEntity
 	{
 		this.hasWare = bool;
 	}
-
-	//TODO: Override ICyberEntity.getCyberEntityItems() to return ReWIREDContent.cyberSkeletonItems
-
+	
 	protected ItemStack setRandomDamage(ItemStack stack)
 	{
 		int damage = (int) (stack.getMaxDamage() * rand.nextFloat());
@@ -220,6 +237,4 @@ public class EntityCyberSkeleton extends EntitySkeleton implements ICyberEntity
 		newStack.setItemDamage(damage);
 		return newStack;
 	}
-
-
 }
