@@ -1,5 +1,6 @@
 package com.mr208.rewired.common.util;
 
+import com.mr208.rewired.ReWIRED;
 import com.mr208.rewired.common.entities.ICyberEntity;
 import flaxbeard.cyberware.api.CyberwareAPI;
 import flaxbeard.cyberware.api.ICyberwareUserData;
@@ -7,11 +8,17 @@ import flaxbeard.cyberware.api.item.EnableDisableHelper;
 import flaxbeard.cyberware.api.item.ICyberware;
 import flaxbeard.cyberware.common.CyberwareContent;
 import flaxbeard.cyberware.common.handler.CyberwareDataHandler;
+import flaxbeard.cyberware.common.lib.LibConstants;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.WeightedRandom;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,10 +33,16 @@ public class CyberwareHelper
 	}
 
 	//Based on Cyberwares default implementation of assigning Cyberware to Cyberzombies
-	public static void addRandomCyberware(ICyberEntity iCyberEntity)
+	public static void addRandomCyberware(ICyberEntity entity)
 	{
-		ICyberwareUserData data = CyberwareAPI.getCapability((EntityLivingBase) iCyberEntity);
+		addRandomCyberware((EntityLivingBase) entity, true);
+	}
+	
+	public static void addRandomCyberware(EntityLivingBase iCyberEntity, boolean addCyberware)
+	{
+		ICyberwareUserData data = CyberwareAPI.getCapability(iCyberEntity);
 		NonNullList<NonNullList<ItemStack>> wares = NonNullList.create();
+		boolean brute = false;
 
 		for (ICyberware.EnumSlot slot: ICyberware.EnumSlot.values())
 		{
@@ -40,12 +53,19 @@ public class CyberwareHelper
 
 		ItemStack battery = new ItemStack(CyberwareContent.creativeBattery);
 		wares.get(CyberwareContent.creativeBattery.getSlot(battery).ordinal()).add(battery);
+		
+		if (!(iCyberEntity instanceof ICyberEntity) && iCyberEntity.world.rand.nextFloat() < (LibConstants.BEACON_BRUTE_CHANCE / 100F))
+		{
+			brute = true;
+		}
 
 		int numberOfItemsToInstall = ((CyberwareContent.NumItems) WeightedRandom.getRandomItem(((EntityLivingBase)iCyberEntity).world.rand,CyberwareContent.numItems)).num;
+		
+		numberOfItemsToInstall += brute? LibConstants.MORE_ITEMS_BRUTE : 0;
 
 		List<ItemStack> installed = new ArrayList<>();
 
-		List<CyberwareContent.ZombieItem> items = new ArrayList(iCyberEntity.getCyberEntityItems());
+		List<CyberwareContent.ZombieItem> items = iCyberEntity instanceof ICyberEntity ? ((ICyberEntity)iCyberEntity).getCyberEntityItems(): CyberwareContent.zombieItems;
 		for(int i = 0; i < numberOfItemsToInstall; i++)
 		{
 			int tries = 0;
@@ -100,10 +120,10 @@ public class CyberwareHelper
 		data.updateCapacity();
 
 		((EntityLivingBase)iCyberEntity).setHealth(((EntityLivingBase)iCyberEntity).getMaxHealth());
-		iCyberEntity.setHasWare(true);
+		
+		if(iCyberEntity instanceof ICyberEntity)
+			((ICyberEntity)iCyberEntity).setHasWare(true);
 
 		CyberwareAPI.updateData((EntityLivingBase)iCyberEntity);
-
 	}
-
 }

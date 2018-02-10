@@ -550,7 +550,7 @@ public class BlockECG extends Block
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, ITooltipFlag advanced)
 	{
-		tooltip.add(ChatFormatting.DARK_GRAY + I18n.format(this.getUnlocalizedName()+".tooltip"));
+		tooltip.add(ChatFormatting.GRAY + I18n.format(this.getUnlocalizedName()+".tooltip"));
 		super.addInformation(stack, player, tooltip, advanced);
 	}
 }

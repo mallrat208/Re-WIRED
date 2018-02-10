@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.mr208.rewired.ReWIRED;
 import com.mr208.rewired.client.model.ModelTechVisor;
 import com.mr208.rewired.client.render.ReWIREDRenderer;
-import com.mr208.rewired.common.items.equipment.ItemTechVisor;
+import com.mr208.rewired.common.items.equipment.ItemARVisor;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -52,7 +52,7 @@ public class BakedCustomItemModel implements IBakedModel
 	private void doRender(TransformType type)
 	{
 
-		if(stack.getItem() instanceof ItemTechVisor)
+		if(stack.getItem() instanceof ItemARVisor)
 		{
 			GlStateManager.pushMatrix();
 			GlStateManager.rotate(180, 0.0F, 0.0F, 1.0F);

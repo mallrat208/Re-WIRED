@@ -2,9 +2,9 @@ package com.mr208.rewired;
 
 import com.mr208.rewired.common.CommonProxy;
 import com.mr208.rewired.common.ReWIREDContent;
-import com.mr208.rewired.common.handlers.NetworkHandler;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
+import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -39,6 +39,8 @@ public class ReWIRED
 	public void onPreInit(FMLPreInitializationEvent event)
 	{
 		proxy.onPreInit();
+		
+		
 	}
 
 	@EventHandler
@@ -50,7 +52,7 @@ public class ReWIRED
 	@EventHandler
 	public void onPostInit(FMLPostInitializationEvent event)
 	{
-
+		proxy.onPostInit();
 	}
 
 	public static CreativeTabs creativeTab = new CreativeTabs(MOD_ID)

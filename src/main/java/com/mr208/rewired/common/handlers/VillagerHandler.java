@@ -224,6 +224,7 @@ public class VillagerHandler
 		cyberEquipment.add(new ItemStack(CyberwareContent.jacket));
 		cyberEquipment.add(new ItemStack(CyberwareContent.shades));
 		cyberEquipment.add(new ItemStack(CyberwareContent.shades2));
+		cyberEquipment.add(new ItemStack(ReWIREDContent.armorARVisor));
 		
 		if(Equipment.shields.enableShields)
 		{

@@ -15,7 +15,9 @@ import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -25,12 +27,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class ItemTechVisor extends ItemArmor implements IColorableEquipment
+public class ItemARVisor extends ItemArmor implements IColorableEquipment
 {
 	public static final IAttribute RANGED_DAMAGE_BONUS = new RangedAttribute(null,"rewired.ranged_damage", 1.0D, 0.0D, 2048.0D);
 	public static final UUID RANGED_DAMAGE_MODIFIER = UUID.fromString("c1216e4c-b4c6-44b1-beb5-28ec10a6638c");
 	
-	public ItemTechVisor(ArmorMaterial materialIn)
+	public ItemARVisor(ArmorMaterial materialIn)
 	{
 		super(materialIn, 0, EntityEquipmentSlot.HEAD);
 		String name = "visor";
@@ -45,6 +47,15 @@ public class ItemTechVisor extends ItemArmor implements IColorableEquipment
 		ForgeRegistries.ITEMS.register(this);
 		
 		MinecraftForge.EVENT_BUS.register(this);
+	}
+	
+	@Nullable
+	@Override
+	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable NBTTagCompound nbt)
+	{
+		
+		
+		return super.initCapabilities(stack, nbt);
 	}
 	
 	@Override
@@ -115,7 +126,7 @@ public class ItemTechVisor extends ItemArmor implements IColorableEquipment
 				
 				ItemStack headSlot = attackingEntity.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
 				
-				if(!headSlot.isEmpty() && headSlot.getItem() instanceof ItemTechVisor)
+				if(!headSlot.isEmpty() && headSlot.getItem() instanceof ItemARVisor)
 				{
 					float damage = event.getAmount();
 					float modifiedDamage;

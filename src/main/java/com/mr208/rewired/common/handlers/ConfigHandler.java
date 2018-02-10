@@ -3,7 +3,7 @@ package com.mr208.rewired.common.handlers;
 import com.mr208.rewired.ReWIRED;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.Config.*;
-import sun.security.ec.ECDHKeyAgreement;
+
 
 public class ConfigHandler
 {
@@ -236,9 +236,6 @@ public class ConfigHandler
 	@Config(modid = ReWIRED.MOD_ID, name = ReWIRED.MOD_NAME+ "/Entities", category = "Entities")
 	public static class Entities
 	{
-		@Comment("Enabled Cyberskeleton Spawning. Replaces Regular Skeletons Occasionally")
-		@Name("Enable Cyberskeleton")
-		public static boolean enableCyberskeleton = true;
 		
 		@Comment({"Enables Grey Goo. Occasionally spawns from dieing Cybermobs","Not Yet Implemented"})
 		@Name("Enable Grey Goo")
@@ -247,5 +244,40 @@ public class ConfigHandler
 		@Comment("Enables ReWIRED Villager, the Runner. Trades for Cyberware and various Equipment")
 		@Name("Enable Runner Villager")
 		public static boolean enableVillager = true;
+		
+		@Comment("Configuration Options relating to the Cyberskeleton")
+		@Name("Cyberskeleton Config")
+		public static Cyberskelton cyberskelton = new Cyberskelton();
+		
+		@Comment("Expand the lists of Cyberized Enemies with non-standard entries")
+		@Name("Additional Augmentation")
+		public static Augmentation augmentation = new Augmentation();
+		
+		public static class Augmentation
+		{
+			@Comment({"Add the registry name of the Entity to Augment", "One entry per line in the format of modid:registry name","Example:  minecraft:zombie"})
+			@Name("Augment External Entities")
+			public String[] additionCyberEntities = {""};
+		}
+		
+		public static class Cyberskelton
+		{
+			@Comment("Enabled Cyberskeleton Spawning. Replaces Regular Skeletons Occasionally")
+			@Name("Enable Cyberskeleton")
+			public boolean enableCyberskeleton = true;
+			
+			@Name("Cyberskeleton Weight")
+			@RangeInt(min = 0)
+			public int WEIOHT = 60;
+			
+			@Name("Cyberskeleton Min")
+			@RangeInt(min = 0)
+			public int MIN_PACK = 1;
+			
+			@Name("Cyberskeleton Max")
+			@RangeInt(min = 0)
+			public int MAX_PACK = 3;
+			
+		}
 	}
 }

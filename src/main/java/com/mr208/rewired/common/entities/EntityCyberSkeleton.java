@@ -216,7 +216,13 @@ public class EntityCyberSkeleton extends EntitySkeleton implements ICyberEntity
 			this.setDropChance(EntityEquipmentSlot.OFFHAND, 0.25F);
 		}
 	}
-
+	
+	@Override
+	public List<ZombieItem> getCyberEntityItems()
+	{
+		return ReWIREDContent.cyberSkeletonItems;
+	}
+	
 	@Override
 	public boolean getHasWare(EntityLivingBase entityLivingBase)
 	{

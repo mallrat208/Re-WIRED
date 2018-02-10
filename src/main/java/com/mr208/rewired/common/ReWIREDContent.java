@@ -11,14 +11,22 @@ import com.mr208.rewired.common.handlers.ConfigHandler.Augments;
 import com.mr208.rewired.common.handlers.ConfigHandler.Entities;
 import com.mr208.rewired.common.handlers.ConfigHandler.Equipment;
 import com.mr208.rewired.common.handlers.ConfigHandler.General;
+import com.mr208.rewired.common.items.ItemDebug;
 import com.mr208.rewired.common.items.ItemReWIRED;
 import com.mr208.rewired.common.items.ItemReWIREDFood;
 import com.mr208.rewired.common.items.equipment.ItemRiotShield;
-import com.mr208.rewired.common.items.equipment.ItemTechVisor;
+import com.mr208.rewired.common.items.equipment.ItemARVisor;
 import com.mr208.rewired.common.items.augments.*;
 import flaxbeard.cyberware.common.CyberwareContent;
 import flaxbeard.cyberware.common.CyberwareContent.ZombieItem;
+
+import flaxbeard.cyberware.common.entity.EntityCyberZombie;
 import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.monster.AbstractSkeleton;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityStray;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumAction;
@@ -28,10 +36,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biome.SpawnListEntry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import net.minecraftforge.common.util.EnumHelper;
@@ -42,6 +53,7 @@ import flaxbeard.cyberware.common.misc.NNLUtil;
 
 import com.mr208.rewired.ReWIRED;
 import com.mr208.rewired.common.entities.EntityRailRider;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 @Mod.EventBusSubscriber(modid = ReWIRED.MOD_ID)
 public class ReWIREDContent
@@ -98,7 +110,7 @@ public class ReWIREDContent
 	public static ItemAugment legAugments;
 	public static ItemAugment footAugments;
 	
-	public static ItemTechVisor armorTechVisor;
+	public static ItemARVisor armorARVisor;
 	
 	public static ItemReWIREDFood foodPowerbar;
 	public static ItemReWIREDFood foodSilverGorgon;
@@ -111,7 +123,7 @@ public class ReWIREDContent
 
 	public static void onPreInit()
 	{
-		itemReWIRED = new ItemReWIRED("stub");
+		itemReWIRED = new ItemDebug("stub");
 		itemReWIRED.setMetaHidden(0);
 		
 		if(General.BLOCKS.enableECG)
@@ -135,7 +147,7 @@ public class ReWIREDContent
 			
 		}
 		
-		armorTechVisor = new ItemTechVisor(ArmorMaterial.CHAIN);
+		armorARVisor= new ItemARVisor(ArmorMaterial.DIAMOND);
 		
 		POLYMER_MATERIAL = EnumHelper.addToolMaterial("POLYMER",
 				1,
@@ -151,7 +163,7 @@ public class ReWIREDContent
 				7.0F,
 				2.5F,
 				8);
-		CARBON_MATERIAL.setRepairItem(new ItemStack(Items.IRON_INGOT));
+		CARBON_MATERIAL.setRepairItem(new ItemStack(Items.GOLD_INGOT));
 		
 		PLASTEEL_MATERIAL = EnumHelper.addToolMaterial("PLASTEEL",
 				3,
@@ -159,7 +171,7 @@ public class ReWIREDContent
 				9.0F,
 				3.5F,
 				10);
-		PLASTEEL_MATERIAL.setRepairItem(new ItemStack(Items.IRON_INGOT));
+		PLASTEEL_MATERIAL.setRepairItem(new ItemStack(Items.DIAMOND));
 		
 		if(Equipment.shields.enableShields)
 		{
@@ -216,15 +228,19 @@ public class ReWIREDContent
 		);
 
 		skinAugments = new ItemSkinAugment("skin", ICyberware.EnumSlot.SKIN,
-				new String[]{"camo"});
-		skinAugments.setEssenceCost(ConfigHandler.Augments.TOC.TOLERANCE_COST);
-		skinAugments.setWeights(ConfigHandler.Augments.TOC.RARITY);
+				new String[]{"camo","aegis"});
+		skinAugments.setEssenceCost(ConfigHandler.Augments.TOC.TOLERANCE_COST, 15);
+		skinAugments.setWeights(ConfigHandler.Augments.TOC.RARITY, 1);
 		skinAugments.setComponents(
 				NNLUtil.fromArray(new ItemStack[] { Comp.SYNTHETIC_NERVES.numb(2),
 						Comp.FIBER_OPTICS.numb(2),
 						Comp.BIOREACTOR.numb(1),
-						Comp.CHROME_PLATING.numb(1)})
-		);
+						Comp.CHROME_PLATING.numb(1)}),
+				NNLUtil.fromArray(new ItemStack[] { Comp.SYNTHETIC_NERVES.numb(1),
+						Comp.TITANIUM_MESH.numb(2),
+						Comp.FULLERENE_MICROSTRUCTURES.numb(1),
+						Comp.MICROELECTRIC_CELLS.numb(1),
+						Comp.BIOREACTOR.numb(2) }));
 
 		torsoAugments = new ItemTorsoAugment("torso",
 				ICyberware.EnumSlot.LOWER_ORGANS,
@@ -283,12 +299,12 @@ public class ReWIREDContent
 				.build();
 		registeredEntityEntries.add(entryRailRider);
 		
-		if(Entities.enableCyberskeleton)
+		if(Entities.cyberskelton.enableCyberskeleton)
 		{
 			entryCyberSkeleton=EntityEntryBuilder.create()
 					.entity(EntityCyberSkeleton.class)
 					.name("cyberskeleton")
-					.id(new ResourceLocation(ReWIRED.MOD_ID, "cyber_skeleton"), 1)
+					.id(new ResourceLocation(ReWIRED.MOD_ID, "cyberskeleton"), 1)
 					.egg(0x616161, 0x343434)
 					.tracker(32, 1, false)
 					.build();
@@ -312,6 +328,33 @@ public class ReWIREDContent
 			ReWIRED.LOGGER.warn("Failed to register VillageRunnersHouse");
 		}
 		*/
+	}
+	
+	public static void onPostInit()
+	{
+		if(Entities.cyberskelton.enableCyberskeleton)
+		{
+			List<Biome> biomes = new ArrayList<>();
+			
+			for(ResourceLocation key : Biome.REGISTRY.getKeys())
+			{
+				Biome biome = Biome.REGISTRY.getObject(key);
+				for (SpawnListEntry entry : biome.getSpawnableList(EnumCreatureType.MONSTER))
+				{
+					if(entry.entityClass == EntitySkeleton.class || entry.entityClass == EntityStray.class)
+					{
+						biomes.add(biome);
+					}
+				}
+			}
+			
+			EntityRegistry.addSpawn(EntityCyberSkeleton.class,
+					Entities.cyberskelton.WEIOHT,
+					Entities.cyberskelton.MIN_PACK,
+					Entities.cyberskelton.MAX_PACK,
+					EnumCreatureType.MONSTER,
+					biomes.toArray(new Biome[0]));
+		}
 	}
 
 	@SubscribeEvent
