@@ -29,8 +29,8 @@ public class EventHandler
 	{
 		if(event.getEntityLiving() instanceof AbstractSkeleton && !(event.getEntityLiving() instanceof EntityCyberSkeleton) && !(event.getEntityLiving() instanceof EntityWitherSkeleton))
 		{
-			EntitySkeleton skeleton;
-			skeleton = (EntitySkeleton) event.getEntityLiving();
+			AbstractSkeleton skeleton;
+			skeleton = (AbstractSkeleton) event.getEntityLiving();
 			
 			int tier = TileEntityBeacon.isInRange(skeleton.world, skeleton.posX, skeleton.posY, skeleton.posZ);
 			if (tier > 0) {
