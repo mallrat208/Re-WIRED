@@ -22,6 +22,9 @@ cyberware.tooltip.torso.0.power_consumption=Uses%1$d power per Block fallen.
 item.rewired.skin.camo.name=Thermopitic Camouflage
 cyberware.tooltip.skin.0=Out of Sight...
 
+item.rewired.skin.aegis.name=AEGIS Defense Matrix
+cyberware.tooltip.skin.1=Thick Skinned
+
 item.rewired.foot.rail_riders.name=Rail Riders
 cyberware.tooltip.foot.0=Keeping a foot ahead on the Tracks of life
 
