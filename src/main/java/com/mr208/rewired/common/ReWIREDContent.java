@@ -229,8 +229,8 @@ public class ReWIREDContent
 
 		skinAugments = new ItemSkinAugment("skin", ICyberware.EnumSlot.SKIN,
 				new String[]{"camo","aegis"});
-		skinAugments.setEssenceCost(ConfigHandler.Augments.TOC.TOLERANCE_COST, 15);
-		skinAugments.setWeights(ConfigHandler.Augments.TOC.RARITY, 1);
+		skinAugments.setEssenceCost(Augments.TOC.TOLERANCE_COST, Augments.adm.TOLERANCE_COST);
+		skinAugments.setWeights(Augments.TOC.RARITY, Augments.adm.RARITY);
 		skinAugments.setComponents(
 				NNLUtil.fromArray(new ItemStack[] { Comp.SYNTHETIC_NERVES.numb(2),
 						Comp.FIBER_OPTICS.numb(2),

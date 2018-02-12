@@ -70,6 +70,10 @@ public class ConfigHandler
 		@Comment({"Augment Slot: Lower Organs Essential", "Increases efficiency of digestion of foods"})
 		public static CyberStomach cyberStomach = new CyberStomach();
 		
+		@Name("AEGIS Defense Matrix")
+		@Comment({"Augment Slot: Skin","Gives a minor stacking bonus to armor and armor toughness when activated"})
+		public static ADM adm = new ADM();
+		
 		public static class CyberStomach
 		{
 			@Comment("Tolerance Cost of the Augment")
@@ -229,6 +233,25 @@ public class ConfigHandler
 			public String[] BLACKLIST = {"appliedenergistics2:item.itemcrystalseed", "botania:livingrock",
 					"botania:manatablet"};
 
+		}
+		
+		public static class ADM
+		{
+			
+			@Comment("Energy Cost of the Augment per Second")
+			@RangeInt(min = 0)
+			@Name("Energy Cost")
+			public int ENERGY_COST = 50;
+			
+			@Comment("Tolerance Cost of the Augment")
+			@RangeInt(min = 0)
+			@Name("Tolerance")
+			public int TOLERANCE_COST = 5;
+			
+			@Comment("Rarity of the Augment")
+			@RangeInt(min = 0, max = 100)
+			@Name("Rarity")
+			public int RARITY = 1;
 		}
 
 	}

@@ -1,6 +1,7 @@
 package com.mr208.rewired.common.items.augments;
 
 import com.mr208.rewired.common.handlers.ConfigHandler;
+import com.mr208.rewired.common.handlers.ConfigHandler.Augments;
 import com.mr208.rewired.common.util.CyberwareHelper;
 import flaxbeard.cyberware.api.CyberwareAPI;
 import flaxbeard.cyberware.api.CyberwareUpdateEvent;
@@ -42,20 +43,14 @@ public class ItemSkinAugment extends ItemAugment
 	@Override
 	public void onAdded(EntityLivingBase entityLivingBase, ItemStack itemStack)
 	{
-		if(itemStack.getItemDamage() == 0)
+		if(!(entityLivingBase instanceof EntityPlayer) && itemStack.getItemDamage() == 0)
 		{
-			ItemStack installed = CyberwareAPI.getCyberware(entityLivingBase, itemStack);
-			EnableDisableHelper.toggle(installed);
+			EnableDisableHelper.toggle(itemStack);
 		}
 		
 		if(itemStack.getItemDamage() == 1)
 		{
-			ItemStack installed = CyberwareAPI.getCyberware(entityLivingBase, itemStack);
-			EnableDisableHelper.toggle(installed);
-			if(!(entityLivingBase instanceof EntityPlayer))
-			{
-				addAEGISBonus(entityLivingBase);
-			}
+			EnableDisableHelper.toggle(itemStack);
 		}
 	}
 	
@@ -70,10 +65,15 @@ public class ItemSkinAugment extends ItemAugment
 		}
 	}
 	
+	private static final AttributeModifier AEGIS_ARMOR = new AttributeModifier(UUID.fromString("f21b6200-6181-4776-8705-4d480f5ab035"),"Armor modifier",10,0);
+	private static final AttributeModifier AEGIS_TOUGHNESS = new AttributeModifier(UUID.fromString("fad806d4-3f6b-4539-83a2-28dd1396bdeb"),"Armor toughness",12,0);
+	
 	private void removeAEGISBonus(EntityLivingBase entityLivingBase)
 	{
+
 		entityLivingBase.getEntityAttribute(SharedMonsterAttributes.ARMOR).removeModifier(AEGIS_ARMOR);
 		entityLivingBase.getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).removeModifier(AEGIS_TOUGHNESS);
+
 		
 		World world = entityLivingBase.getEntityWorld();
 		world.playSound(null,entityLivingBase.getPosition(), SoundEvents.BLOCK_GRAVEL_BREAK, SoundCategory.PLAYERS, 1f,.6f);
@@ -108,9 +108,9 @@ public class ItemSkinAugment extends ItemAugment
 			switch (itemStack.getItemDamage())
 			{
 				case 0:
-					return ConfigHandler.Augments.TOC.ENERGY_COST;
+					return Augments.TOC.ENERGY_COST;
 				case 1:
-					return 50;
+					return Augments.adm.ENERGY_COST;
 				default:
 					return super.getPowerConsumption(itemStack);
 			}
@@ -132,9 +132,6 @@ public class ItemSkinAugment extends ItemAugment
 					return false;
 		}
 	}
-	
-	private static final AttributeModifier AEGIS_ARMOR = new AttributeModifier(UUID.fromString("f21b6200-6181-4776-8705-4d480f5ab035"),"generic.armor",12,0);
-	private static final AttributeModifier AEGIS_TOUGHNESS = new AttributeModifier(UUID.fromString("fad806d4-3f6b-4539-83a2-28dd1396bdeb"),"generic.armorToughness",8,0);
 
 	@Override
 	public void use(Entity entity, ItemStack itemStack)
@@ -218,6 +215,9 @@ public class ItemSkinAugment extends ItemAugment
 		{
 			if(lastAEGIS.contains(entityLivingBase.getUniqueID()))
 				lastAEGIS.remove(entityLivingBase.getUniqueID());
+			
+			if(CyberwareHelper.isAugmentAvailable(entityLivingBase, test))
+				EnableDisableHelper.toggle(test);
 		}
 		
 	}
