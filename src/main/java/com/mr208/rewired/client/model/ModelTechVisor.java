@@ -64,7 +64,7 @@ public class ModelTechVisor extends ModelBase
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GlStateManager.color( colors[0], colors[1], colors[2], 0.40F);
 		lens.render(scale);
-		GlStateManager.disableBlend();
+		GlStateManager.color(1F,1F,1F,1F);
 
 	}
 	

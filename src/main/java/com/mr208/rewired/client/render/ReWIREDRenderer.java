@@ -13,7 +13,7 @@ public class ReWIREDRenderer
 	
 	public static void pauseRenderer(Tessellator tess)
 	{
-		if(isDrawing(tess))
+		if(ReWIREDRenderer.isDrawing(tess))
 		{
 			prevFormat = tess.getBuffer().getVertexFormat();
 			prevMode = tess.getBuffer().getDrawMode();
@@ -23,7 +23,7 @@ public class ReWIREDRenderer
 	
 	public static void saveRenderer(Tessellator tess)
 	{
-		if(isDrawing(tess))
+		if(ReWIREDRenderer.isDrawing(tess))
 		{
 			prevFormat = tess.getBuffer().getVertexFormat();
 			prevMode = tess.getBuffer().getDrawMode();
