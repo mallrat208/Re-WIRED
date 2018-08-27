@@ -1,10 +1,8 @@
 package com.mr208.rewired;
 
 import com.mr208.rewired.common.CommonProxy;
-import com.mr208.rewired.common.ReWIREDContent;
+import com.mr208.rewired.common.Content;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -22,7 +20,7 @@ public class ReWIRED
 	public static final String MOD_ID = "rewired";
 	public static final String MOD_NAME = "ReWIRED";
 	public static final String MOD_VERSION = "@MOD_VERSION@";
-	public static final String MOD_DEPS = "after:cyberware;";
+	public static final String MOD_DEPS = "required-after:cyberware;";
 
 	@Instance(MOD_ID)
 	public static ReWIRED INSTANCE;
@@ -60,7 +58,7 @@ public class ReWIRED
 		@Override
 		public ItemStack getTabIconItem()
 		{
-			return new ItemStack(ReWIREDContent.itemReWIRED);
+			return new ItemStack(Content.itemReWIRED);
 		}
 	};
 }

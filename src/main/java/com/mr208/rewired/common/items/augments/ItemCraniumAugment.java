@@ -3,13 +3,18 @@ package com.mr208.rewired.common.items.augments;
 import com.mr208.rewired.ReWIRED;
 import com.mr208.rewired.common.handlers.ConfigHandler;
 import com.mr208.rewired.common.handlers.ConfigHandler.Augments;
+import com.mr208.rewired.common.items.equipment.INeuralInterlinkItem;
+import com.mr208.rewired.common.items.equipment.ItemArmorInterlink;
 import com.mr208.rewired.common.util.CyberwareHelper;
 import flaxbeard.cyberware.api.CyberwareAPI;
 import flaxbeard.cyberware.api.CyberwareUpdateEvent;
 import flaxbeard.cyberware.api.ICyberwareUserData;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -63,7 +68,29 @@ public class ItemCraniumAugment extends ItemAugment
 		
 		return super.hasMenu(itemStack);
 	}
-
+	
+	@Override
+	public void onRemoved(EntityLivingBase entityLivingBase, ItemStack itemStack)
+	{
+		super.onRemoved(entityLivingBase, itemStack);
+		
+		//When Removing the Neural Interace, any equipped MMI-Items need to be removed
+		if(itemStack.getItemDamage() == 1 && entityLivingBase instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer) entityLivingBase;
+			
+			for(ItemStack stack : player.inventory.armorInventory)
+			{
+				if(stack.getItem() instanceof INeuralInterlinkItem && ((INeuralInterlinkItem)stack.getItem()).isNeuralInterfaceRequired(stack))
+				{
+					EntityEquipmentSlot entityEquipmentSlot = EntityLiving.getSlotForItemStack(stack);
+					player.setItemStackToSlot(entityEquipmentSlot, ItemStack.EMPTY);
+					ItemHandlerHelper.giveItemToPlayer(player,stack.copy());
+				}
+			}
+		}
+	}
+	
 	@SubscribeEvent
 	public void onCyberUpdate(CyberwareUpdateEvent event)
 	{

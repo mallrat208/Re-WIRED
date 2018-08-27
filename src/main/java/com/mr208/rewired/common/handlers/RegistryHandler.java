@@ -1,7 +1,7 @@
 package com.mr208.rewired.common.handlers;
 
 import com.mr208.rewired.ReWIRED;
-import com.mr208.rewired.common.ReWIREDContent;
+import com.mr208.rewired.common.Content;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -14,7 +14,7 @@ public class RegistryHandler
 	@SubscribeEvent
 	public void registerItems(RegistryEvent.Register<Item> event)
 	{
-		for(Item item :ReWIREDContent.registeredItems)
+		for(Item item : Content.registeredItems)
 		{
 			event.getRegistry().register(item);
 		}
@@ -23,7 +23,7 @@ public class RegistryHandler
 	@SubscribeEvent
 	public void registerBlocks(RegistryEvent.Register<Block> event)
 	{
-		for(Block block : ReWIREDContent.registeredBlocks)
+		for(Block block : Content.registeredBlocks)
 		{
 			event.getRegistry().register(block);
 		}

@@ -1,7 +1,7 @@
 package com.mr208.rewired.common.items;
 
 import com.mr208.rewired.ReWIRED;
-import com.mr208.rewired.common.ReWIREDContent;
+import com.mr208.rewired.common.Content;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,7 +26,7 @@ public class ItemReWIRED extends Item
 		this.setMaxStackSize(64);
 		this.hiddenItems = new boolean[this.subNames.length>0?this.subNames.length:1];
 		this.setRegistryName(ReWIRED.MOD_ID, name);
-		ReWIREDContent.registeredItems.add(this);
+		Content.registeredItems.add(this);
 		ForgeRegistries.ITEMS.register(this);
 	}
 	

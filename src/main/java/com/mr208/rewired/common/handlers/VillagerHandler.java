@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.mr208.rewired.ReWIRED;
-import com.mr208.rewired.common.ReWIREDContent;
+import com.mr208.rewired.common.Content;
 import com.mr208.rewired.common.handlers.ConfigHandler.Entities;
 import com.mr208.rewired.common.handlers.ConfigHandler.Equipment;
 import flaxbeard.cyberware.api.CyberwareAPI;
@@ -224,11 +224,11 @@ public class VillagerHandler
 		cyberEquipment.add(new ItemStack(CyberwareContent.jacket));
 		cyberEquipment.add(new ItemStack(CyberwareContent.shades));
 		cyberEquipment.add(new ItemStack(CyberwareContent.shades2));
-		cyberEquipment.add(new ItemStack(ReWIREDContent.armorARVisor));
+		cyberEquipment.add(new ItemStack(Content.armorARVisor));
 		
 		if(Equipment.shields.enableShields)
 		{
-			cyberEquipment.add(new ItemStack(ReWIREDContent.itemShieldCarbon));
+			cyberEquipment.add(new ItemStack(Content.itemShieldCarbon));
 		}
 		
 		return cyberEquipment.toArray(new ItemStack[cyberEquipment.size()]);
@@ -239,8 +239,8 @@ public class VillagerHandler
 		ArrayList<ItemStack> consumables = new ArrayList<>();
 		
 		consumables.add(new ItemStack(CyberwareContent.neuropozyne));
-		consumables.add(new ItemStack(ReWIREDContent.foodPowerbar));
-		consumables.add(new ItemStack(ReWIREDContent.foodSilverGorgon));
+		consumables.add(new ItemStack(Content.foodPowerbar));
+		consumables.add(new ItemStack(Content.foodSilverGorgon));
 		
 		return consumables.toArray(new ItemStack[consumables.size()]);
 	}

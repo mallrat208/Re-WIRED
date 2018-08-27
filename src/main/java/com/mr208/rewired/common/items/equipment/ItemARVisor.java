@@ -4,9 +4,12 @@ import com.google.common.collect.Multimap;
 import com.mr208.rewired.ReWIRED;
 import com.mr208.rewired.client.render.ModelCustomArmor;
 import com.mr208.rewired.client.render.ModelCustomArmor.ArmorModel;
-import com.mr208.rewired.common.ReWIREDContent;
+import com.mr208.rewired.common.Content;
+import com.mr208.rewired.common.handlers.ConfigHandler.Equipment;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -16,6 +19,8 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -25,9 +30,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.UUID;
 
-public class ItemARVisor extends ItemArmor implements IColorableEquipment
+public class ItemARVisor extends ItemArmorInterlink implements IColorableEquipment
 {
 	public static final IAttribute RANGED_DAMAGE_BONUS = new RangedAttribute(null,"rewired.ranged_damage", 1.0D, 0.0D, 2048.0D);
 	public static final UUID RANGED_DAMAGE_MODIFIER = UUID.fromString("c1216e4c-b4c6-44b1-beb5-28ec10a6638c");
@@ -43,7 +49,7 @@ public class ItemARVisor extends ItemArmor implements IColorableEquipment
 		
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, ItemArmor.DISPENSER_BEHAVIOR);
 		
-		ReWIREDContent.registeredItems.add(this);
+		Content.registeredItems.add(this);
 		ForgeRegistries.ITEMS.register(this);
 		
 		MinecraftForge.EVENT_BUS.register(this);
@@ -68,12 +74,6 @@ public class ItemARVisor extends ItemArmor implements IColorableEquipment
 	public boolean isDamageable()
 	{
 		return false;
-	}
-	
-	@Override
-	public boolean isValidArmor(ItemStack stack, EntityEquipmentSlot armorType, Entity entity)
-	{
-		return armorType == EntityEquipmentSlot.HEAD;
 	}
 	
 	@Override
@@ -137,6 +137,12 @@ public class ItemARVisor extends ItemArmor implements IColorableEquipment
 				}
 			}
 		}
+	}
+	
+	@Override
+	public boolean isNeuralInterfaceRequired(ItemStack stack)
+	{
+		return Equipment.arvisor.requiresAugment;
 	}
 }
 

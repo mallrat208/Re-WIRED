@@ -2,7 +2,7 @@ package com.mr208.rewired.common.items;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 import com.mr208.rewired.ReWIRED;
-import com.mr208.rewired.common.ReWIREDContent;
+import com.mr208.rewired.common.Content;
 import flaxbeard.cyberware.api.CyberwareAPI;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.util.ITooltipFlag;
@@ -47,7 +47,7 @@ public class ItemReWIREDFood extends ItemFood
 		this.setAlwaysEdible();
 		
 		ForgeRegistries.ITEMS.register(this);
-		ReWIREDContent.registeredItems.add(this);
+		Content.registeredItems.add(this);
 		
 	}
 	
@@ -57,7 +57,7 @@ public class ItemReWIREDFood extends ItemFood
 		if(entityLiving instanceof EntityPlayer)
 		{
 			EntityPlayer entityplayer=(EntityPlayer)entityLiving;
-			if(CyberwareAPI.isCyberwareInstalled(entityplayer, new ItemStack(ReWIREDContent.torsoAugments, 1, 1)))
+			if(CyberwareAPI.isCyberwareInstalled(entityplayer, new ItemStack(Content.torsoAugments, 1, 1)))
 			{
 				if(!entityplayer.getFoodStats().needFood() && worldIn.rand.nextFloat() < .7)
 					entityplayer.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 80, 1));

@@ -44,8 +44,5 @@ public interface IColorableEquipment
 		return new Color(color).getRGBColorComponents(null);
 	}
 	
-	default boolean isDyable()
-	{
-		return true;
-	}
+	boolean isDyable();
 }

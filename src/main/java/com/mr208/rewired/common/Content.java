@@ -14,6 +14,7 @@ import com.mr208.rewired.common.handlers.ConfigHandler.General;
 import com.mr208.rewired.common.items.ItemDebug;
 import com.mr208.rewired.common.items.ItemReWIRED;
 import com.mr208.rewired.common.items.ItemReWIREDFood;
+import com.mr208.rewired.common.items.equipment.ItemExosuit;
 import com.mr208.rewired.common.items.equipment.ItemRiotShield;
 import com.mr208.rewired.common.items.equipment.ItemARVisor;
 import com.mr208.rewired.common.items.augments.*;
@@ -29,6 +30,7 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityStray;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
@@ -56,7 +58,7 @@ import com.mr208.rewired.common.entities.EntityRailRider;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 @Mod.EventBusSubscriber(modid = ReWIRED.MOD_ID)
-public class ReWIREDContent
+public class Content
 {
 	@GameRegistry.ObjectHolder("cyberware:component")
 	public static final Item component = null;
@@ -80,23 +82,7 @@ public class ReWIREDContent
 	public static ItemReWIRED itemBatonPlasteel;
 	
 	public static Block electroChromicGlass;
-	public static Block ecglassWhite;
-	public static Block ecglassOrange;
-	public static Block ecglassMagenta;
-	public static Block ecglassLightBlue;
-	public static Block ecglassYellow;
-	public static Block ecglassLime;
-	public static Block ecglassPink;
-	public static Block ecglassGray;
-	public static Block ecglassSilver;
-	public static Block ecglassCyan;
-	public static Block ecglassPurple;
-	public static Block ecglassBlue;
-	public static Block ecglassBrown;
-	public static Block ecglassGreen;
-	public static Block ecglassRed;
-	public static Block ecglassBlack;
-
+	
 	public static ItemAugment eyeAugments;
 	public static ItemAugment craniumAugments;
 	public static ItemAugment heartAugments;
@@ -112,6 +98,11 @@ public class ReWIREDContent
 	
 	public static ItemARVisor armorARVisor;
 	
+	public static ItemExosuit exosuitHelm;
+	public static ItemExosuit exosuitChest;
+	public static ItemExosuit exosuitLegs;
+	public static ItemExosuit exosuitFeet;
+	
 	public static ItemReWIREDFood foodPowerbar;
 	public static ItemReWIREDFood foodSilverGorgon;
 
@@ -120,34 +111,28 @@ public class ReWIREDContent
 	public static EntityEntry entryGreyGoo;
 
 	public static List<CyberwareContent.ZombieItem> cyberSkeletonItems;
-
+	
+	/**
+	*Experimental Items
+	*/
+	public static ItemReWIRED itemResource;
+	
+	
 	public static void onPreInit()
 	{
 		itemReWIRED = new ItemDebug("stub");
 		itemReWIRED.setMetaHidden(0);
 		
+		//itemResource = new ItemReWIRED("resource","dust_polymer","ingot_polymer","sheet_polymer","dust_carbon","ingot_carbon","sheet_carbon",				"dust_plasteel","ingot_plasteel","sheet_plasteel");
+		
 		if(General.BLOCKS.enableECG)
 		{
 			electroChromicGlass = new BlockECG(null);
-			//ecglassWhite = new BlockECG(EnumDyeColor.WHITE);
-			//ecglassOrange = new BlockECG(EnumDyeColor.ORANGE);
-			//ecglassMagenta = new BlockECG(EnumDyeColor.MAGENTA);
-			//ecglassLightBlue = new BlockECG(EnumDyeColor.LIGHT_BLUE);
-			//ecglassYellow = new BlockECG(EnumDyeColor.YELLOW);
-			//ecglassLime = new BlockECG(EnumDyeColor.LIME);
-			//ecglassPink = new BlockECG(EnumDyeColor.PINK);
-			//ecglassGray = new BlockECG(EnumDyeColor.GRAY);
-			//ecglassSilver = new BlockECG(EnumDyeColor.SILVER);
-			//ecglassCyan = new BlockECG(EnumDyeColor.CYAN);
-			//ecglassPurple = new BlockECG(EnumDyeColor.PURPLE);
-			//ecglassBlue = new BlockECG(EnumDyeColor.BLUE);
-			//ecglassGreen = new BlockECG(EnumDyeColor.GREEN);
-			//ecglassRed = new BlockECG(EnumDyeColor.RED);
-			//ecglassBlack = new BlockECG(EnumDyeColor.BLACK);
-			
 		}
 		
 		armorARVisor= new ItemARVisor(ArmorMaterial.DIAMOND);
+		
+		
 		
 		POLYMER_MATERIAL = EnumHelper.addToolMaterial("POLYMER",
 				1,
@@ -198,6 +183,14 @@ public class ReWIREDContent
 					Comp.CHROME_PLATING.numb(2),
 					Comp.TITANIUM_MESH.numb(4)}));
 		}
+		
+		if(Equipment.exosuit.enableExosuit)
+		{
+			//exosuitHelm = new ItemExosuit(EntityEquipmentSlot.HEAD);
+			//exosuitChest = new ItemExosuit(EntityEquipmentSlot.CHEST);
+			//exosuitLegs = new ItemExosuit(EntityEquipmentSlot.LEGS);
+			//exosuitFeet = new ItemExosuit(EntityEquipmentSlot.FEET);
+		}
 
 		handAugments = new ItemHandAugment("hand",
 				ICyberware.EnumSlot.HAND,
@@ -228,9 +221,9 @@ public class ReWIREDContent
 		);
 
 		skinAugments = new ItemSkinAugment("skin", ICyberware.EnumSlot.SKIN,
-				new String[]{"camo","aegis"});
-		skinAugments.setEssenceCost(Augments.TOC.TOLERANCE_COST, Augments.adm.TOLERANCE_COST);
-		skinAugments.setWeights(Augments.TOC.RARITY, Augments.adm.RARITY);
+				new String[]{"camo","aegis","era"});
+		skinAugments.setEssenceCost(Augments.TOC.TOLERANCE_COST, Augments.adm.TOLERANCE_COST, Augments.era.TOLERANCE_COST);
+		skinAugments.setWeights(Augments.TOC.RARITY, Augments.adm.RARITY, Augments.era.RARITY);
 		skinAugments.setComponents(
 				NNLUtil.fromArray(new ItemStack[] { Comp.SYNTHETIC_NERVES.numb(2),
 						Comp.FIBER_OPTICS.numb(2),
@@ -240,7 +233,11 @@ public class ReWIREDContent
 						Comp.TITANIUM_MESH.numb(2),
 						Comp.FULLERENE_MICROSTRUCTURES.numb(1),
 						Comp.MICROELECTRIC_CELLS.numb(1),
-						Comp.BIOREACTOR.numb(2) }));
+						Comp.BIOREACTOR.numb(2) }),
+				NNLUtil.fromArray(new ItemStack[] {Comp.CHROME_PLATING.numb(3),
+						Comp.BIOREACTOR.numb(1),
+						Comp.TITANIUM_MESH.numb(2),
+						new ItemStack(Items.ENDER_EYE,1)}));
 
 		torsoAugments = new ItemTorsoAugment("torso",
 				ICyberware.EnumSlot.LOWER_ORGANS,
@@ -265,15 +262,20 @@ public class ReWIREDContent
 
 		craniumAugments = new ItemCraniumAugment("cranium",
 				ICyberware.EnumSlot.CRANIUM,
-				new String[]{"ecd"});
-		craniumAugments.setEssenceCost(ConfigHandler.Augments.ecd.TOLERANCE_COST);
-		craniumAugments.setWeights(ConfigHandler.Augments.ecd.RARITY);
+				new String[]{"ecd","mmi"});
+		craniumAugments.setEssenceCost(Augments.ecd.TOLERANCE_COST, Augments.mmi.TOLERANCE_COST);
+		craniumAugments.setWeights(Augments.ecd.RARITY, Augments.mmi.RARITY);
 		craniumAugments.setComponents(
 				NNLUtil.fromArray(new ItemStack[] {new ItemStack(Items.ENDER_PEARL),
 						Comp.MICROELECTRIC_CELLS.numb(2),
 						Comp.SOLID_STATE_CIRCUITRY.numb(1),
 						Comp.SYNTHETIC_NERVES.numb(1),
-						Comp.BIOREACTOR.numb(1)})
+						Comp.BIOREACTOR.numb(1)}),
+				NNLUtil.fromArray(new ItemStack[] {Comp.TITANIUM_MESH.numb(1),
+						Comp.SYNTHETIC_NERVES.numb(3),
+						Comp.CHROME_PLATING.numb(1),
+						Comp.SOLID_STATE_CIRCUITRY.numb(1),
+						Comp.MICROELECTRIC_CELLS.numb(1)})
 		);
 		
 		foodPowerbar = new ItemReWIREDFood("powerbar",

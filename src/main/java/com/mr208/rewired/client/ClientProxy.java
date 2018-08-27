@@ -1,24 +1,20 @@
 package com.mr208.rewired.client;
 
-import com.mr208.rewired.ReWIRED;
-import com.mr208.rewired.client.model.ModelTechVisor;
+import com.mr208.rewired.client.gui.InventoryTabERA;
 import com.mr208.rewired.client.render.ReWIREDMeshDefinition;
 import com.mr208.rewired.client.render.RenderCyberSkeleton;
 import com.mr208.rewired.client.render.item.CustomItemModelFactory;
 import com.mr208.rewired.common.CommonProxy;
-import com.mr208.rewired.common.ReWIREDContent;
-import com.mr208.rewired.common.blocks.BlockECG;
+import com.mr208.rewired.common.Content;
 import com.mr208.rewired.common.entities.EntityCyberSkeleton;
 import com.mr208.rewired.common.items.ItemReWIRED;
 import com.mr208.rewired.common.items.augments.ItemAugment;
 import flaxbeard.cyberware.api.item.ICyberware.Quality;
+import micdoodle8.mods.galacticraft.api.client.tabs.InventoryTabVanilla;
+import micdoodle8.mods.galacticraft.api.client.tabs.TabRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPane;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.block.statemap.StateMap;
-import net.minecraft.client.renderer.block.statemap.StateMapperBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.ModelBakeEvent;
@@ -43,15 +39,29 @@ public class ClientProxy extends CommonProxy
 		
 		MinecraftForge.EVENT_BUS.register(this);
 		
-		for(Block block: ReWIREDContent.registeredBlocks)
+		for(Block block: Content.registeredBlocks)
 			registerRenders(block);
 		
-		for(Item item: ReWIREDContent.registeredItems)
+		for(Item item: Content.registeredItems)
 			registerRenders(item);
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityCyberSkeleton.class, RenderCyberSkeleton::new);
 	}
-
+	
+	@Override
+	public void onPostInit()
+	{
+		super.onPostInit();
+		
+		if(TabRegistry.getTabList().size() == 0)
+		{
+			MinecraftForge.EVENT_BUS.register(new TabRegistry());
+			TabRegistry.registerTab(new InventoryTabVanilla());
+		}
+		
+		TabRegistry.registerTab(new InventoryTabERA());
+	}
+	
 	private void registerRenders(Block block)
 	{
 			Item item=Item.getItemFromBlock(block);

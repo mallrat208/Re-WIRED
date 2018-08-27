@@ -5,9 +5,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import com.mr208.rewired.ReWIRED;
-import com.mr208.rewired.common.ReWIREDContent;
+import com.mr208.rewired.common.Content;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockPistonBase;
 import net.minecraft.block.BlockRedstoneComparator;
 import net.minecraft.block.BlockRedstoneDiode;
 import net.minecraft.block.BlockRedstoneRepeater;
@@ -93,8 +92,8 @@ public class BlockECG extends Block
 		ForgeRegistries.BLOCKS.register(this);
 		ForgeRegistries.ITEMS.register(itemBlock);
 		
-		ReWIREDContent.registeredItems.add(itemBlock);
-		ReWIREDContent.registeredBlocks.add(this);
+		Content.registeredItems.add(itemBlock);
+		Content.registeredBlocks.add(this);
 	}
 	
 	private void setEnumDyeColor(EnumDyeColor color)

@@ -1,7 +1,6 @@
 package com.mr208.rewired.common.entities;
 
-import com.mr208.rewired.common.ReWIREDContent;
-import com.mr208.rewired.common.handlers.ConfigHandler;
+import com.mr208.rewired.common.Content;
 import com.mr208.rewired.common.handlers.ConfigHandler.Equipment;
 import com.mr208.rewired.common.util.CyberwareHelper;
 import flaxbeard.cyberware.api.CyberwareAPI;
@@ -13,7 +12,6 @@ import flaxbeard.cyberware.common.CyberwareContent.ZombieItem;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -205,11 +203,11 @@ public class EntityCyberSkeleton extends EntitySkeleton implements ICyberEntity
 				float shieldType = this.world.rand.nextFloat();
 				
 				if(shieldType > 0.85F)
-					shield = setRandomDamage(new ItemStack(ReWIREDContent.itemShieldPlasteel).copy());
+					shield = setRandomDamage(new ItemStack(Content.itemShieldPlasteel).copy());
 				if(shieldType < 0.85F && shieldType > 0.75F)
-					shield = setRandomDamage(new ItemStack(ReWIREDContent.itemShieldCarbon).copy());
+					shield = setRandomDamage(new ItemStack(Content.itemShieldCarbon).copy());
 				if(shieldType < 0.75F && shieldType > 0.5F)
-					shield = setRandomDamage(new ItemStack(ReWIREDContent.itemShieldPolymer).copy());
+					shield = setRandomDamage(new ItemStack(Content.itemShieldPolymer).copy());
 			}
 			
 			this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, shield);
@@ -220,7 +218,7 @@ public class EntityCyberSkeleton extends EntitySkeleton implements ICyberEntity
 	@Override
 	public List<ZombieItem> getCyberEntityItems()
 	{
-		return ReWIREDContent.cyberSkeletonItems;
+		return Content.cyberSkeletonItems;
 	}
 	
 	@Override

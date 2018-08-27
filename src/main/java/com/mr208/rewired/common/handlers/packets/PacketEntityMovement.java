@@ -60,7 +60,7 @@ public class PacketEntityMovement implements IMessage {
 		@Override
 		public IMessage onMessage(PacketEntityMovement packet, MessageContext ctx) {
 			if (!ctx.side.isClient())
-				throw new IllegalStateException("recieved WiredEntityMovementPacket on the Server Side!");
+				throw new IllegalStateException("Received PacketEntityMovement on the Server Side!");
 
 			IThreadListener mainThread = Minecraft.getMinecraft();
 

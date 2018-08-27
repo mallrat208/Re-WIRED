@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -148,12 +149,25 @@ public class ItemHandAugment extends ItemAugment
 
 			if (cyberwareUserData.usePower(test, ConfigHandler.Augments.pkb.ENERGY_COST, false))
 			{
-
-				Entity projectile = event.getSource().getImmediateSource();
-				Vec3d vectorMotion = new Vec3d(projectile.motionX, projectile.motionY, projectile.motionZ);
-				Vec3d vectorLook = player.getLookVec();
-
-				double difference = -vectorLook.dotProduct(vectorMotion.normalize());
+				Entity projectile=null;
+				
+				if(event.getSource().getImmediateSource()!=null)
+				{
+					projectile=event.getSource().getImmediateSource();
+				}
+				
+				double difference=0;
+				
+				Vec3d vectorMotion = null;
+				Vec3d vectorLook = null;
+				
+				if(projectile!=null)
+				{
+					vectorMotion=new Vec3d(projectile.motionX, projectile.motionY, projectile.motionZ);
+					vectorLook=player.getLookVec();
+					difference=-vectorLook.dotProduct(vectorMotion.normalize());
+				}
+				
 				if (difference < 0.1)
 					return;
 

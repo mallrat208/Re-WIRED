@@ -37,6 +37,36 @@ public class ConfigHandler
 			@Name("Riot Shields")
 			public boolean enableShields = true;
 		}
+		
+		@Name("Exosuit")
+		@Comment("Exosuit Armor item. Increases Stats offers little protection")
+		public static EXOSUIT exosuit = new EXOSUIT();
+		
+		public static class EXOSUIT
+		{
+			@Comment("Enable Exosuit")
+			@Name("Exosuit")
+			public boolean enableExosuit = true;
+			
+			@Comment("If enabled, the Exosuit is only usable by entities with the Neural Interface Augment")
+			@Name("Requires Neural Interface")
+			public boolean requiresAugment = true;
+		}
+		
+		@Name("AR Visor")
+		@Comment("Augmented Reality Visor")
+		public static ARVISOR arvisor = new ARVISOR();
+		
+		public static class ARVISOR
+		{
+			@Comment("Enable AR-Visor")
+			@Name("AR Visor")
+			public boolean enableARVisor = true;
+			
+			@Comment("If enabled, the AR-Visor is only usable by entities with the Neural Interface Augment")
+			@Name("Requires Neural Interlink")
+			public boolean requiresAugment = false;
+		}
 	}
 
 	@Config(modid = ReWIRED.MOD_ID, name = ReWIRED.MOD_NAME+ "/Augments", category = "Augments")
@@ -66,6 +96,10 @@ public class ConfigHandler
 		@Comment({"Augment Slot: Cranium","When enabled, teleports items towards the augmented entity.","Controlled via the Cyberware Menu","Relies on Ender Teleportation Fields"})
 		public static ECD ecd = new ECD();
 		
+		@Name("Neural Interface")
+		@Comment({"Augment Slot: Cranium","Allows the use of objects that require a Man-Machine Interface, such as the Exosuit"})
+		public static MMI mmi = new MMI();
+		
 		@Name("Cybernetic Stomach")
 		@Comment({"Augment Slot: Lower Organs Essential", "Increases efficiency of digestion of foods"})
 		public static CyberStomach cyberStomach = new CyberStomach();
@@ -73,6 +107,23 @@ public class ConfigHandler
 		@Name("AEGIS Defense Matrix")
 		@Comment({"Augment Slot: Skin","Gives a minor stacking bonus to armor and armor toughness when activated"})
 		public static ADM adm = new ADM();
+		
+		@Name("Endermal Remote Access")
+		@Comment({"Augment Slot: Skin","Allows the player to access their Ender Chest from their Inventory"})
+		public static ERA era = new ERA();
+		
+		public static class ERA
+		{
+			@Comment("Tolerance Cost of the Augment")
+			@RangeInt(min = 0)
+			@Name("Tolerance")
+			public int TOLERANCE_COST = 10;
+			
+			@Comment("Rarity of the Augment")
+			@RangeInt(min = 0, max = 100)
+			@Name("Rarity")
+			public int RARITY = 20;
+		}
 		
 		public static class CyberStomach
 		{
@@ -233,6 +284,17 @@ public class ConfigHandler
 			public String[] BLACKLIST = {"appliedenergistics2:item.itemcrystalseed", "botania:livingrock",
 					"botania:manatablet"};
 
+		}
+		
+		public static class MMI
+		{
+			@Comment("Tolerenace Cost of the Augment")
+			@Name("Tolerance")
+			public int TOLERANCE_COST = 2;
+			
+			@Comment("Rarity of the Augment")
+			@Name("Rarity")
+			public int RARITY = 15;
 		}
 		
 		public static class ADM

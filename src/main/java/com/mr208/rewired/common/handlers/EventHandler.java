@@ -1,7 +1,7 @@
 package com.mr208.rewired.common.handlers;
 
 import com.mr208.rewired.ReWIRED;
-import com.mr208.rewired.common.ReWIREDContent;
+import com.mr208.rewired.common.Content;
 import com.mr208.rewired.common.entities.EntityCyberSkeleton;
 import com.mr208.rewired.common.handlers.ConfigHandler.Entities;
 import flaxbeard.cyberware.common.CyberwareConfig;
@@ -67,7 +67,7 @@ public class EventHandler
 				}
 				else
 				{
-					skeleton.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(ReWIREDContent.armorARVisor));
+					skeleton.setItemStackToSlot(EntityEquipmentSlot.HEAD, new ItemStack(Content.armorARVisor));
 				}
 				
 				skeleton.setDropChance(EntityEquipmentSlot.HEAD, .2F);

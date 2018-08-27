@@ -2,6 +2,7 @@ package com.mr208.rewired.common.handlers;
 
 import com.mr208.rewired.ReWIRED;
 import com.mr208.rewired.common.handlers.packets.PacketEntityMovement;
+import com.mr208.rewired.common.handlers.packets.PacketGUI;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
@@ -15,5 +16,6 @@ public class NetworkHandler
 	public static void init()
 	{
 		INSTANCE.registerMessage(PacketEntityMovement.Handler.class, PacketEntityMovement.class, packet++, Side.CLIENT);
+		INSTANCE.registerMessage(PacketGUI.Handler.class, PacketGUI.class, packet++, Side.SERVER);
 	}
 }

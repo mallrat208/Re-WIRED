@@ -3,7 +3,7 @@ package com.mr208.rewired.common.handlers;
 import com.mr208.rewired.ReWIRED;
 import com.mr208.rewired.client.render.RenderHandReWIRED;
 import com.mr208.rewired.client.render.RenderPlayerReWIRED;
-import com.mr208.rewired.common.ReWIREDContent;
+import com.mr208.rewired.common.Content;
 import com.mr208.rewired.common.util.CyberwareHelper;
 import flaxbeard.cyberware.api.CyberwareAPI;
 import flaxbeard.cyberware.api.ICyberwareUserData;
@@ -79,7 +79,7 @@ public class EventHandlerClient
 				boolean bigArms=ReflectionHelper.getPrivateValue(RenderPlayer.class, event.getRenderer(), 0);
 				
 				
-				if(CyberwareHelper.isAugmentAvailable(p, new ItemStack(ReWIREDContent.skinAugments, 1, 1)))
+				if(CyberwareHelper.isAugmentAvailable(p, new ItemStack(Content.skinAugments, 1, 1)))
 				{
 					event.setCanceled(true);
 					doAegis=true;
@@ -240,7 +240,7 @@ public class EventHandlerClient
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void handleRenderHand(RenderHandEvent event)
 	{
-		hasAegis = CyberwareHelper.isAugmentAvailable(mc.player, new ItemStack(ReWIREDContent.skinAugments,1,1));
+		hasAegis = CyberwareHelper.isAugmentAvailable(mc.player, new ItemStack(Content.skinAugments,1,1));
 		
 		if(CyberwareConfig.RENDER && !(FMLClientHandler.instance().hasOptifine()) && hasAegis)
 		{
