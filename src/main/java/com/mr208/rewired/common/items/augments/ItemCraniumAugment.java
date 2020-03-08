@@ -164,7 +164,7 @@ public class ItemCraniumAugment extends ItemAugment
 
 		//Prevent Movement from IE Conveyors
 		NBTTagCompound nbtTagCompound = item.getEntityData();
-		if(nbtTagCompound.hasKey("PreserveRemoteMovement") && nbtTagCompound.getBoolean("PreserveRemoteMovement"))
+		if(nbtTagCompound.hasKey("PreventRemoteMovement") && nbtTagCompound.getBoolean("PreventRemoteMovement"))
 			return false;
 
 		return true;
